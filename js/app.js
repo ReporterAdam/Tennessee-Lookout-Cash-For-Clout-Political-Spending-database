@@ -183,6 +183,15 @@
       { view: 'ie',           label: 'Independent Expenditures' },
     ];
 
+   return `
+      <nav class="tn-nav">
+        ${navItems.map(n => `
+          <button class="tn-nav-btn ${state.view === n.view ? 'active' : ''}" data-view="${n.view}">${n.label}</button>
+        `).join('')}
+      </nav>
+      <div id="tn-view-content"></div>
+    `;
+
   // ── Landing ──────────────────────────────────────────────────────────────────
   function renderLanding(container) {
     container.innerHTML = `
