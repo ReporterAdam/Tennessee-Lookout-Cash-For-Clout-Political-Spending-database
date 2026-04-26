@@ -80,8 +80,8 @@
   font-size:  15px;      /* was 14px */
   color:      var(--tn-text-muted);
   max-width:  740px;     /* was 640px — wider column */
-  margin:     0 auto;    /* was just 0 — this centers it */
-  margin-bottom: 8px;    /* adds space between paragraphs */
+  margin: 0 0 8px 0;
+  max-width: 100%;
 }
 
 /* ── Navigation ────────────────────────────────────────────────────────────── */
