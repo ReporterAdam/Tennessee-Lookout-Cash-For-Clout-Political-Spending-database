@@ -266,20 +266,32 @@ window.TNCampaign = (function () {
           </div>
 
           <h3 class="tn-section-heading">Top Donors (Organizations & PACs)</h3>
+
+          <div class="tn-era-filters" style="margin-bottom:12px;">
+            <span class="tn-era-label">Show donations:</span>
+            ${window.TN_ERA_OPTS.map(([y, l]) => `
+              <button class="tn-era-btn ${era === y ? 'active' : ''}" data-donor-era="${y}">${l}</button>
+            `).join('')}
+          </div>
+
           ${donorVisible.length ? `
             <div class="tn-table-wrap" style="margin-bottom:16px;">
               <table class="tn-table">
                 <thead><tr>
                   <th style="width:40px;">#</th>
                   <th>Donor</th>
-                  <th class="num">Total Given</th>
+                  <th class="num">Total</th>
+                  <th class="num">PAC</th>
+                  <th class="num">Campaign Acct</th>
                 </tr></thead>
                 <tbody>
                   ${donorVisible.map((d, i) => `
                     <tr>
                       <td class="rank">${i + 1}</td>
                       <td class="name-link" data-donor="${encodeURIComponent(d.donor_name)}">${d.donor_name}</td>
-                      <td class="money">${fmtFull(d[`total_${era}`] || 0)}</td>
+                      <td class="money" style="font-weight:600;">${fmtFull(d[`total_${era}`] || 0)}</td>
+                      <td class="money" style="color:var(--tn-text-muted);">—</td>
+                      <td class="money" style="color:var(--tn-text-muted);">—</td>
                     </tr>
                   `).join('')}
                 </tbody>
@@ -305,6 +317,9 @@ window.TNCampaign = (function () {
     container.querySelector('#cf-pol-back').addEventListener('click', () => navigate({ entity: null, subview: 'politicians', donorPage: 0 }));
     container.querySelectorAll('.tn-era-btn').forEach(btn => {
       btn.addEventListener('click', () => navigate({ era: btn.dataset.era, donorPage: 0 }));
+    });
+    container.querySelectorAll('[data-donor-era]').forEach(btn => {
+      btn.addEventListener('click', () => navigate({ era: btn.dataset.donorEra, donorPage: 0 }));
     });
     container.querySelectorAll('.name-link[data-donor]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.donor), subview: 'donors' }));

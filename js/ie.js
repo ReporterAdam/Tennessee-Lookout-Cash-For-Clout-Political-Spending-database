@@ -22,13 +22,11 @@ window.TNIE = (function () {
   // Era filter buttons — combined row
   function eraButtons(currentEra) {
     return `
-      <div class="tn-era-filters" style="flex-wrap:wrap;gap:6px;">
+      <div class="tn-era-filters" style="flex-wrap:wrap;gap:6px;align-items:center;">
         <span class="tn-era-label">Show:</span>
-        ${window.TN_IE_ERA_OPTS.map(([y, l]) => `
-          <button class="tn-era-btn ${currentEra === y ? 'active' : ''}" data-era="${y}"
-            style="${y.startsWith('cycle_') && currentEra !== y ? 'background:var(--tn-yellow-light);border-color:#f0d060;color:#7a5c00;' : y.startsWith('cycle_') && currentEra === y ? 'background:#1a1a18;border-color:#1a1a18;color:#fff;' : ''}">
-            ${l}
-          </button>
+        ${window.TN_IE_ERA_OPTS.map(([y, l], idx) => `
+          ${idx === 4 ? '<span style="width:1px;height:20px;background:var(--tn-border);display:inline-block;margin:0 4px;"></span>' : ''}
+          <button class="tn-era-btn ${currentEra === y ? 'active' : ''}" data-era="${y}">${l}</button>
         `).join('')}
       </div>
     `;
