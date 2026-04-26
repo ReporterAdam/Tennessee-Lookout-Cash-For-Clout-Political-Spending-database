@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@d01f707eb8352adf0f5333cda0ab086d55d7c75f/';
+  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@bc978a5074c4bde4e0b673b4c10f52532b08140c/';
   const DATA_URL = BASE_URL + 'data/';
   const JS_URL   = BASE_URL + 'js/';
 
