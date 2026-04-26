@@ -6,9 +6,9 @@
 (function () {
   'use strict';
 
-  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@main/';
-  const DATA_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@8eee698442a66b4bb9f9db0b202b1c3cb4e09690/data/';
-  const JS_URL   = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@8eee698442a66b4bb9f9db0b202b1c3cb4e09690/js/';
+  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@27c69d335c0d28887de31cebcd5821dc6743635e/';
+  const DATA_URL = BASE_URL + 'data/';
+  const JS_URL   = BASE_URL + 'js/';
 
   // Era options — rolling windows
   window.TN_ERA_OPTS = [
