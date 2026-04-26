@@ -290,8 +290,8 @@ window.TNCampaign = (function () {
                       <td class="rank">${i + 1}</td>
                       <td class="name-link" data-donor="${encodeURIComponent(d.donor_name)}">${d.donor_name}</td>
                       <td class="money" style="font-weight:600;">${fmtFull(d[`total_${era}`] || 0)}</td>
-                      <td class="money" style="color:var(--tn-text-muted);">—</td>
-                      <td class="money" style="color:var(--tn-text-muted);">—</td>
+                      <td class="money">${parseFloat(d[`pac_${era}`]) > 0 ? fmtFull(d[`pac_${era}`]) : '<span style="color:var(--tn-text-light);">—</span>'}</td>
+                      <td class="money">${parseFloat(d[`campaign_${era}`]) > 0 ? fmtFull(d[`campaign_${era}`]) : '<span style="color:var(--tn-text-light);">—</span>'}</td>
                     </tr>
                   `).join('')}
                 </tbody>
