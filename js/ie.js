@@ -364,7 +364,7 @@ function flexMatch(name, query) {
 
     let rows = pols.filter(r => {
       const matchFilter = filter === 'current' ? r.current_elected === 'Yes' : true;
-      const matchSearch = !query || (r.politician_display || '').toLowerCase().includes(query);
+      const matchSearch = flexMatch(r.politician_display || r.politician_key, query);
       return matchFilter && matchSearch && parseFloat(r[col]) > 0;
     }).sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
@@ -434,7 +434,7 @@ function flexMatch(name, query) {
     let timer;
     container.querySelector('#ie-pol-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'ie-politician' }));
