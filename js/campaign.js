@@ -163,17 +163,19 @@ window.TNCampaign = (function () {
 
     renderLoading(container);
 
-    const [pols, totals, topDonors, smallDonors] = await Promise.all([
+    const [pols, totals, topDonors, smallDonors, polAccounts] = await Promise.all([
       loadData('cf_politicians.csv'),
       loadData('cf_politician_totals.csv'),
       loadData('cf_politician_top_donors.csv'),
       loadData('cf_small_donor_summary.csv'),
+      loadData('cf_politician_accounts.csv'),
     ]);
 
     const key  = state.entity;
     const era  = getEra(state);
     const meta = pols.find(r => r.politician_key === key);
     const tot  = totals.find(r => r.politician_key === key);
+    const pacs = polAccounts.filter(r => r.politician_key === key).map(r => r.pac_name);
 
     if (!meta) { container.innerHTML = `<div class="tn-empty">Politician not found.</div>`; return; }
 
@@ -202,6 +204,12 @@ window.TNCampaign = (function () {
             ${meta.current_seat ? `<span>${meta.current_seat}</span>` : ''}
             ${meta.current_elected === 'Yes' ? '<span>✓ Currently Elected</span>' : ''}
           </div>
+          ${pacs.length ? `
+            <div style="margin-top:8px;font-size:13px;color:rgba(255,255,255,0.8);">
+              <span style="opacity:0.6;margin-right:6px;">Associated PACs:</span>
+              ${pacs.map(p => `<span style="margin-right:8px;">${p}</span>`).join('')}
+            </div>
+          ` : ''}
         </div>
         <div class="tn-profile-body">
 
@@ -265,7 +273,7 @@ window.TNCampaign = (function () {
             </table>
           </div>
 
-          <h3 class="tn-section-heading">Top Donors (Organizations & PACs)</h3>
+          <h3 class="tn-section-heading">Top Donors</h3>
 
           <div class="tn-era-filters" style="margin-bottom:12px;">
             <span class="tn-era-label">Show donations:</span>
