@@ -201,6 +201,7 @@ window.TNCampaign = (function () {
             <span>${meta.party || ''}</span>
             ${meta.current_seat ? `<span>${meta.current_seat}</span>` : ''}
             ${meta.current_elected === 'Yes' ? '<span>✓ Currently Elected</span>' : ''}
+            ${meta.pac_name ? `<span>PAC: ${meta.pac_name}</span>` : ''}
           </div>
         </div>
         <div class="tn-profile-body">
