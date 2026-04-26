@@ -208,7 +208,7 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px;">
         ${landingCard('Top Political Spenders', 'See which companies and organizations spend the most across lobbying, campaign contributions and independent expenditures.', 'top-spenders', '🏆')}
         ${landingCard('Lobbying', 'Track what companies and organizations spend the most to influence the Tennessee legislature.', 'lobbying', '🏛️')}
-        ${landingCard('Campaign Contributions', 'Search contributions to Tennessee politicians and their PACs, and by companies donating the most to state campaigns '💰')}
+        ${landingCard('Campaign Contributions', 'Search contributions to Tennessee politicians and their PACs, and by companies donating the most to state campaigns.', 'campaign', '💰')}
         ${landingCard('Independent Expenditures', 'Follow outside spending by groups supporting or opposing Tennessee state candidates.', 'ie', '📊')}
       </div>
       <div class="tn-methodology">
