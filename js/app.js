@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@7563f4f8766d22f07ac3950e8965279e1c0a8eb4/';
+  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@4cfca482e8b7b42b5b6940261007c532189402c1/';
   const DATA_URL = BASE_URL + 'data/';
   const JS_URL   = BASE_URL + 'js/';
 
@@ -184,14 +184,6 @@
     ];
 
     return `
-      <div class="tn-header">
-        <div class="tn-header-eyebrow">Tennessee Lookout — Cash For Clout</div>
-        <h2 class="tn-header-title">Tennessee Political Spending Database</h2>
-        <p class="tn-header-desc">
-          Track lobbying spending, campaign contributions, and independent expenditures
-          by companies and organizations influencing Tennessee politics.
-        </p>
-      </div>
       <nav class="tn-nav">
         ${navItems.map(n => `
           <button class="tn-nav-btn ${state.view === n.view ? 'active' : ''}" data-view="${n.view}">${n.label}</button>
