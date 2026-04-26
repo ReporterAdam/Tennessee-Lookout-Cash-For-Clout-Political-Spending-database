@@ -188,8 +188,9 @@
         <div class="tn-header-eyebrow">Tennessee Lookout — Cash For Clout</div>
         <h2 class="tn-header-title">Tennessee Political Spending Database</h2>
         <p class="tn-header-desc">
-          Track lobbying spending, campaign contributions, and independent expenditures
-          by companies and organizations influencing Tennessee politics.
+          Every year millions of dollars flow to Nashville, flooding the halls of Tennessee’s state capitol as a small number of deep-pocketed groups attempt to influence lawmakers.
+          The money comes in many streams through different legal channels, all aiming to influence regulations, push for tax breaks and secure government contracts, often to further private interests instead of the public. The Tennessee Lookout, relying on publicly filed lobbying and campaign finance reports, created a tool to search Tennessee’s top political spenders and recipients.
+          This page allows users to discover who’s spending the most cash to influence lawmakers and different ways groups spend money to gain influence. 
         </p>
       </div>
       <nav class="tn-nav">
@@ -205,16 +206,16 @@
   function renderLanding(container) {
     container.innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px;">
-        ${landingCard('Top Political Spenders', 'See which companies and organizations spend the most across lobbying, campaign contributions, and independent expenditures.', 'top-spenders', '🏆')}
-        ${landingCard('Lobbying', 'Track spending by companies hiring lobbyists to influence the Tennessee legislature, reported semi-annually.', 'lobbying', '🏛️')}
-        ${landingCard('Campaign Contributions', 'Search contributions to Tennessee politicians and PACs by organization, company, or individual donor.', 'campaign', '💰')}
-        ${landingCard('Independent Expenditures', 'Follow outside spending by groups supporting or opposing Tennessee candidates.', 'ie', '📊')}
+        ${landingCard('Top Political Spenders', 'See which companies and organizations spend the most across lobbying, campaign contributions and independent expenditures.', 'top-spenders', '🏆')}
+        ${landingCard('Lobbying', 'Track what companies and organizations spend the most to influence the Tennessee legislature.', 'lobbying', '🏛️')}
+        ${landingCard('Campaign Contributions', 'Search contributions to Tennessee politicians and their PACs, and by companies donating the most to state campaigns '💰')}
+        ${landingCard('Independent Expenditures', 'Follow outside spending by groups supporting or opposing Tennessee state candidates.', 'ie', '📊')}
       </div>
       <div class="tn-methodology">
-        <strong>About this database:</strong> Data comes from the Tennessee Registry of Election Finance
-        and the Tennessee Bureau of Ethics and Campaign Finance. Lobbying figures are midpoint estimates
-        converted from ranges reported to the state. Campaign finance and independent expenditure figures
-        reflect actual reported dollar amounts. Updated April 2026.
+        <strong>About this database:</strong> The underlying data for this story comes from a lobbying report database and a campaign finance report 
+        database maintained by the Tennessee Bureau of Ethics and Campaign Finance. 
+        To create the top donor list, the Lookout combined spending from three categories 
+        — lobbying, campaign donations and independent expenditures. Last updated April 26, 2026.
       </div>
     `;
 
