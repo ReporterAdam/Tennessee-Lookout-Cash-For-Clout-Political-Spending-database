@@ -159,7 +159,7 @@ function flexMatch(name, query) {
     let timer;
     container.querySelector('#ie-spender-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'ie-spender' }));
