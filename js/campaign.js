@@ -354,7 +354,6 @@ function flexMatch(name, query) {
 
     let rows = donors.filter(r => {
      return flexMatch(r.donor_name, query) && parseFloat(r[col]) > 0;
-    })
     }).sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
     const page    = state.page || 0;
