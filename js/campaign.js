@@ -6,18 +6,6 @@
 window.TNCampaign = (function () {
   'use strict';
 
-function flexMatch(name, query) {
-  if (!query) return true;
-  const n = (name || '').toLowerCase();
-  if (n.includes(query)) return true;
-  if (n.includes(',')) {
-    const parts = n.split(',').map(s => s.trim());
-    const reversed = parts.slice(1).join(' ') + ' ' + parts[0];
-    if (reversed.includes(query)) return true;
-  }
-  return false;
-}
-
   const PAGE_SIZE = 25;
 
   function getEra(state) { return state.era || '5yr'; }
@@ -79,7 +67,8 @@ function flexMatch(name, query) {
 
     if (filter === 'current') rows = rows.filter(r => r.current_elected === 'Yes');
     if (query) rows = rows.filter(r =>
-      flexMatch(r.display_name, query) || flexMatch(r.politician_key, query)
+      (r.display_name || '').toLowerCase().includes(query) ||
+      (r.politician_key || '').toLowerCase().includes(query)
     );
 
     rows = rows
@@ -159,7 +148,7 @@ function flexMatch(name, query) {
     let timer;
     container.querySelector('#cf-pol-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'politician' }));
@@ -174,19 +163,17 @@ function flexMatch(name, query) {
 
     renderLoading(container);
 
-    const [pols, totals, topDonors, smallDonors, polAccounts] = await Promise.all([
+    const [pols, totals, topDonors, smallDonors] = await Promise.all([
       loadData('cf_politicians.csv'),
       loadData('cf_politician_totals.csv'),
       loadData('cf_politician_top_donors.csv'),
       loadData('cf_small_donor_summary.csv'),
-      loadData('cf_politician_accounts.csv'),
     ]);
 
     const key  = state.entity;
     const era  = getEra(state);
     const meta = pols.find(r => r.politician_key === key);
     const tot  = totals.find(r => r.politician_key === key);
-    const pacs = polAccounts.filter(r => r.politician_key === key).map(r => r.pac_name);
 
     if (!meta) { container.innerHTML = `<div class="tn-empty">Politician not found.</div>`; return; }
 
@@ -215,12 +202,6 @@ function flexMatch(name, query) {
             ${meta.current_seat ? `<span>${meta.current_seat}</span>` : ''}
             ${meta.current_elected === 'Yes' ? '<span>✓ Currently Elected</span>' : ''}
           </div>
-          ${pacs.length ? `
-            <div style="margin-top:8px;font-size:13px;color:rgba(255,255,255,0.8);">
-              <span style="opacity:0.6;margin-right:6px;">Associated PACs:</span>
-              ${pacs.map(p => `<span style="margin-right:8px;">${p}</span>`).join('')}
-            </div>
-          ` : ''}
         </div>
         <div class="tn-profile-body">
 
@@ -284,7 +265,7 @@ function flexMatch(name, query) {
             </table>
           </div>
 
-          <h3 class="tn-section-heading">Top Donors</h3>
+          <h3 class="tn-section-heading">Top Donors (Organizations & PACs)</h3>
 
           <div class="tn-era-filters" style="margin-bottom:12px;">
             <span class="tn-era-label">Show donations:</span>
@@ -319,6 +300,10 @@ function flexMatch(name, query) {
             ${donorHasMore ? `<button class="tn-show-more" id="cf-donor-more">Show more donors (${donors.length - donorVisible.length} remaining)</button>` : ''}
             ${donors.length > PAGE_SIZE ? `<p style="font-size:13px;color:var(--tn-text-muted);">Showing ${donorVisible.length} of ${donors.length} donors</p>` : ''}
           ` : '<p style="color:var(--tn-text-muted);font-size:14px;">No organizational donors found.</p>'}
+
+          <div class="tn-methodology" style="margin-bottom:12px;">
+            <strong>Note:</strong> Self-funding contributions — where a politician donates to their own campaign — are excluded from all totals and donor lists on this page.
+          </div>
 
           ${smallRow ? `
             <div class="tn-methodology">
@@ -361,7 +346,8 @@ function flexMatch(name, query) {
     const col   = `total_${era}`;
 
     let rows = donors.filter(r => {
-     return flexMatch(r.donor_name, query) && parseFloat(r[col]) > 0;
+      const matchSearch = !query || (r.donor_name || '').toLowerCase().includes(query);
+      return matchSearch && parseFloat(r[col]) > 0;
     }).sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
     const page    = state.page || 0;
@@ -419,7 +405,7 @@ function flexMatch(name, query) {
     let timer;
     container.querySelector('#cf-donor-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'donors' }));

@@ -7,18 +7,6 @@
 window.TNIE = (function () {
   'use strict';
 
-function flexMatch(name, query) {
-  if (!query) return true;
-  const n = (name || '').toLowerCase();
-  if (n.includes(query)) return true;
-  if (n.includes(',')) {
-    const parts = n.split(',').map(s => s.trim());
-    const reversed = parts.slice(1).join(' ') + ' ' + parts[0];
-    if (reversed.includes(query)) return true;
-  }
-  return false;
-}
-
   const PAGE_SIZE = 50;
 
   function getEra(state) { return state.era || '5yr'; }
@@ -93,7 +81,8 @@ function flexMatch(name, query) {
     const query = (state.query || '').toLowerCase();
 
     let rows = spenders.filter(r => {
-      return flexMatch(r.spender_name, query) && parseFloat(r[col]) > 0;
+      const matchSearch = !query || (r.spender_name || '').toLowerCase().includes(query);
+      return matchSearch && parseFloat(r[col]) > 0;
     }).sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
     const page    = state.page || 0;
@@ -158,7 +147,7 @@ function flexMatch(name, query) {
     let timer;
     container.querySelector('#ie-spender-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'ie-spender' }));
@@ -363,7 +352,7 @@ function flexMatch(name, query) {
 
     let rows = pols.filter(r => {
       const matchFilter = filter === 'current' ? r.current_elected === 'Yes' : true;
-      const matchSearch = flexMatch(r.politician_display || r.politician_key, query);
+      const matchSearch = !query || (r.politician_display || '').toLowerCase().includes(query);
       return matchFilter && matchSearch && parseFloat(r[col]) > 0;
     }).sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
@@ -433,7 +422,7 @@ function flexMatch(name, query) {
     let timer;
     container.querySelector('#ie-pol-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'ie-politician' }));

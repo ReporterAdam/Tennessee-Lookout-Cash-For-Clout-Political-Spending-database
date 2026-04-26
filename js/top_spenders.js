@@ -5,18 +5,6 @@
 window.TNTopSpenders = (function () {
   'use strict';
 
-function flexMatch(name, query) {
-  if (!query) return true;
-  const n = (name || '').toLowerCase();
-  if (n.includes(query)) return true;
-  if (n.includes(',')) {
-    const parts = n.split(',').map(s => s.trim());
-    const reversed = parts.slice(1).join(' ') + ' ' + parts[0];
-    if (reversed.includes(query)) return true;
-  }
-  return false;
-}
-   
   const PAGE_SIZE = 50;
 
   const THRESHOLDS = {
@@ -60,29 +48,23 @@ function flexMatch(name, query) {
     const cfCol     = eraCol(era, 'cf');
     const ieCol     = eraCol(era, 'ie');
 
-   // 1. filter by threshold only
-   let rows = data.filter(r => (parseFloat(r[grandCol]) || 0) >= threshold);
-      
-      // 2. sort
-      const sortCol = state.sortCol || grandCol;
-      const sortDir = state.sortDir || 'desc';
-      rows = rows.slice().sort((a, b) => {
-        const av = parseFloat(a[sortCol]) || 0;
-        const bv = parseFloat(b[sortCol]) || 0;
-        return sortDir === 'desc' ? bv - av : av - bv;
-      });
-      
-      // 3. assign original rank before search filter
-      rows = rows.map((r, i) => ({ ...r, _rank: i + 1 }));
-      
-      // 4. now filter by search
-      const query = (state.query || '').toLowerCase();
-      if (query) {
-        rows = rows.filter(r =>
-          (r.entity_name || '').toLowerCase().includes(query) ||
-          (r.aliases || []).some(a => a.toLowerCase().includes(query))
-        );
-      }
+    const query = (state.query || '').toLowerCase();
+    let rows = data.filter(r => {
+      const meetsThreshold = (parseFloat(r[grandCol]) || 0) >= threshold;
+      const matchesSearch  = !query ||
+        (r.entity_name || '').toLowerCase().includes(query) ||
+        (r.aliases || []).some(a => a.toLowerCase().includes(query));
+      return meetsThreshold && matchesSearch;
+    });
+
+    const sortCol = state.sortCol || grandCol;
+    const sortDir = state.sortDir || 'desc';
+    rows = rows.slice().sort((a, b) => {
+      const av = parseFloat(a[sortCol]) || 0;
+      const bv = parseFloat(b[sortCol]) || 0;
+      return sortDir === 'desc' ? bv - av : av - bv;
+    });
+
     const page    = state.page || 0;
     const visible = rows.slice(0, (page + 1) * PAGE_SIZE);
     const hasMore = rows.length > visible.length;
@@ -122,9 +104,10 @@ function flexMatch(name, query) {
         <div id="ts-methodology-body" style="display:none;margin-top:8px;">
           <div class="tn-methodology">
             <strong>Lobbying:</strong> Tennessee law requires lobbyists to report compensation in dollar ranges. We convert each range to its midpoint — so "$50,000–$100,000" becomes $75,000. These are estimates, not exact figures.<br><br>
-            <strong>Campaign Contributions:</strong> Actual reported contributions from organizations and PACs to Tennessee politicians. Individual donations under $100 are excluded from donor rankings.<br><br>
+            <strong>Campaign Contributions:</strong> Actual reported contributions from organizations, PACs, and individuals giving $5,000 or more to Tennessee politicians. Self-donations from politicians to their own campaigns are excluded. Individual donations under $100 are also excluded.<br><br>
             <strong>Independent Expenditures:</strong> Actual reported spending by outside groups to support or oppose Tennessee candidates.<br><br>
-            <strong>Politician PACs and party caucuses are excluded</strong> from this ranking.
+            <strong>How totals are combined:</strong> Each organization or individual's spending across all three categories is added together to produce a grand total. An entity must appear in at least one category to be ranked.<br><br>
+            <strong>Politician PACs, party caucuses, and individual politicians</strong> are excluded from this ranking — the goal is to show outside interests spending money to influence Tennessee politics.
           </div>
         </div>
       </div>
@@ -162,7 +145,7 @@ function flexMatch(name, query) {
 
               return `
                 <tr>
-                  <td class="rank">${r._rank}</td>
+                  <td class="rank">${i + 1}</td>
                   <td class="name-link" data-key="${encodeURIComponent(r.entity_name)}">
                     ${r.entity_name}
                     ${r.website ? `<a href="${r.website}" target="_blank" style="color:var(--tn-text-light);font-size:11px;margin-left:4px;" onclick="event.stopPropagation()">↗</a>` : ''}
@@ -186,7 +169,7 @@ function flexMatch(name, query) {
     let searchTimer;
     container.querySelector('#ts-search').addEventListener('input', e => {
       clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
 
     container.querySelectorAll('.tn-table th[data-sort]').forEach(th => {

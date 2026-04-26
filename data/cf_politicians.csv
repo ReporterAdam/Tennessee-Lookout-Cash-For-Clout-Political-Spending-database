@@ -1,7 +1,7 @@
 politician_key,display_name,party,city,account_type,current_elected,current_seat,running_in_2026
 "Phillips, Allie",Allie Phillips (Democrat of Clarksville),Democrat,Clarksville,Campaign Account,No,,Yes
 "Huseth, Jesse",Jesse Huseth (Democrat of Memphis),Democrat,Memphis,Campaign Account,No,,Yes
-"Green, Jerri",Jerri Green (Democrat of Memphis),Democrat,Memphis,Campaign Account,No,,Yes
+"Green, Jerri (Governor Campaign)",Jerri Green (Governor Campaign),Democrat,Memphis,Campaign Account,No,,No
 "Henderson, Jordan",Jordan Henderson (Republican of Maryville),Republican,Maryville,Campaign Account,No,,Yes
 "Weatherspoon, David",David Weatherspoon (Democrat of Germantown),Democrat,Germantown,Campaign Account,No,,Yes
 "Means, Jessica",Jessica Means (Republican of Blountville),Republican,Blountville,Campaign Account,No,,Yes
@@ -22,7 +22,7 @@ politician_key,display_name,party,city,account_type,current_elected,current_seat
 "Powell, Jason",Jason Powell (Democrat of Nashville),Democrat,Nashville,Campaign Account,Yes,House of Representatives 53,Yes
 "Helton-Haynes, Esther",Esther Helton-Haynes (Republican of East Ridge),Republican,East Ridge,Campaign Account,Yes,House of Representatives 30,Yes
 "West, Beth",Beth West (Democrat of Nashville),Democrat,Nashville,Campaign Account,No,,Yes
-"Rose, John",John Rose (Republican of Gallatin),Republican,Gallatin,Campaign Account,No,,Yes
+"Rose, John (Governor Campaign)",John Rose (Governor Campaign),Republican,Gallatin,Campaign Account,No,,No
 "Gilkey, Kyler",Kyler Gilkey (Democrat of Memphis),Democrat,Memphis,Campaign Account,No,,Yes
 "Lawless, Angie",Angie Lawless (Democrat of Nashville),Democrat,Nashville,Campaign Account,No,,Yes
 "Romero, Eva",Eva Romero (Republican of Nashville),Republican,Nashville,Campaign Account,No,,Yes
@@ -55,7 +55,7 @@ politician_key,display_name,party,city,account_type,current_elected,current_seat
 "Moos, Rayanne",Rayanne Moos (Democrat of Lawrenceburg),Democrat,Lawrenceburg,Campaign Account,No,,Yes
 "Simpson, Ali",Ali Simpson (Democrat of Ten Mile),Democrat,Ten Mile,Campaign Account,No,,Yes
 "Hancock, Bill",Bill Hancock (Republican of Nashville),Republican,Nashville,Campaign Account,No,,Yes
-"Pinkston, Lauren",Lauren Pinkston (Independent of Nashville),Independent,Nashville,Campaign Account,No,,Yes
+"Pinkston, Lauren (Governor Campaign)",Lauren Pinkston (Governor Campaign),Independent,Nashville,Campaign Account,No,,No
 "Andreson, Laura",Laura Andreson (Democrat of Franklin),Democrat,Franklin,Campaign Account,No,,Yes
 "Lanier, Chris",Chris Lanier (Republican of Clarksville),Republican,Clarksville,Campaign Account,No,,Yes
 "Cothren, Cade",Cade Cothren (Republican of Lawrenceburg),Republican,Lawrenceburg,Campaign Account,No,,No
@@ -80,10 +80,10 @@ Tennessee Democratic Caucus,Tennessee Democratic Caucus (Democrat),Democrat,,Pac
 "Darby, Tandy",Tandy Darby (Republican of Greenfield),Republican,Greenfield,Campaign Account,Yes,House of Representatives 76,Yes
 "Miller, Bethany",Bethany Miller (Democrat of Bolivar),Democrat,Bolivar,Campaign Account,No,,Yes
 "Bavendam, Tamara",Tamara Bavendam (Democrat of Springfield),Democrat,Springfield,Campaign Account,No,,Yes
-"Abidi, Misam",Misam Abidi (Independent of Nolensville),Independent,Nolensville,Campaign Account,No,,Yes
+"Abidi, Misam (Governor Campaign)",Misam Abidi (Governor Campaign),Independent,Nolensville,Campaign Account,No,,No
 "Petit, Samantha",Samantha Petit (Democrat of Mcminnville),Democrat,Mcminnville,Campaign Account,No,,Yes
 "Farnsworth, Owen",Owen Farnsworth (Democrat of Murfreesboro),Democrat,Murfreesboro,Campaign Account,No,,Yes
-"Kurtz, Adam",Adam Kurtz (Democrat of Nashville),Democrat,Nashville,Campaign Account,No,,Yes
+"Kurtz, Adam (Governor Campaign)",Adam Kurtz (Governor Campaign),Democrat,Nashville,Campaign Account,No,,No
 "Greer, John",John Greer (Republican of Burns),Republican,Burns,Campaign Account,No,,No
 "Franklin, Telisa",Telisa Franklin (Democrat of Memphis),Democrat,Memphis,Campaign Account,No,,Yes
 "Johnson, Andrea Bond",Andrea Bond Johnson (Democrat of Brownsville),Democrat,Brownsville,Campaign Account,No,,No
@@ -126,7 +126,7 @@ Tennessee Republican Caucus,Tennessee Republican Caucus (Republican),Republican,
 "Freeman, Bob",Bob Freeman (Democrat of Nashville),Democrat,Nashville,Campaign Account,Yes,House of Representatives 56,Yes
 "Clemmons, John Ray",John Ray Clemmons (Democrat of Nashville),Democrat,Nashville,Campaign Account,Yes,House of Representatives 55,Yes
 "Glynn, Ronnie",Ronnie Glynn (Democrat of Clarksville),Democrat,Clarksville,Campaign Account,Yes,House of Representatives 67,Yes
-"Fritts, Monty",Monty Fritts (Republican of Kingston),Republican,Kingston,Campaign Account,Yes,Governor,Yes
+"Fritts, Monty (Governor Campaign)",Monty Fritts (Governor Campaign),Republican,Kingston,Campaign Account,No,,No
 "Love, Harold",Harold Love (Democrat of Nashville),Democrat,Nashville,Campaign Account,Yes,House of Representatives 58,Yes
 "Warner, Todd",Todd Warner (Republican of Chapel Hill),Republican,Chapel Hill,Campaign Account,Yes,House of Representatives 92,Yes
 "Woodlee, Michael",Michael Woodlee (Democrat of Spencer),Democrat,Spencer,Campaign Account,No,,Yes
@@ -222,10 +222,10 @@ Tennessee Republican Caucus,Tennessee Republican Caucus (Republican),Republican,
 "Powers, Bill",Bill Powers (Republican of Clarksville),Republican,Clarksville,Campaign Account,Yes,Senate District 22,No
 "Hensley, Joey",Joey Hensley (Republican of Hohenwald),Republican,Hohenwald,Campaign Account,Yes,Senate District 28,No
 "Camper, Karen",Karen Camper (Democrat of Memphis),Democrat,Memphis,Pac,Yes,House of Representatives 87,Yes
-"Lee, Bill",Bill Lee (Republican of Franklin),Republican,Franklin,Campaign Account,No,,No
+"Lee, Bill (Governor Campaign)",Bill Lee (Governor Campaign),Republican,Franklin,Campaign Account,No,,No
 "Hulsey, Bud",Bud Hulsey (Republican of Kingsport),Republican,Kingsport,Campaign Account,Yes,House of Representatives 2,No
 "Garrett, Johnny",Johnny Garrett (Republican of Goodlettsville),Republican,Goodlettsville,Campaign Account,Yes,House of Representatives 45,No
-"Atwater, Carnita",Carnita Atwater (Democrat of Memphis),Democrat,Memphis,Campaign Account,No,,Yes
+"Atwater, Carnita (Governor Campaign)",Carnita Atwater (Governor Campaign),Democrat,Memphis,Campaign Account,No,,No
 "Sherrell, Paul",Paul Sherrell (Republican of Sparta),Republican,Sparta,Campaign Account,Yes,House of Representatives 43,Yes
 "Burkhart, Jeff",Jeff Burkhart (Republican of Clarksville),Republican,Clarksville,Campaign Account,Yes,House of Representatives 75,No
 "Woodson, Jamie",Jamie Woodson (Republican of Lebanon),Republican,Lebanon,Campaign Account,No,,No
@@ -364,7 +364,7 @@ Tennessee Republican Caucus,Tennessee Republican Caucus (Republican),Republican,
 "Halford, Curtis",Curtis Halford (Republican of Dyer),Republican,Dyer,Campaign Account,No,,No
 "Ramsey, Ron",Ron Ramsey (Republican of Blountville),Republican,Blountville,Campaign Account,No,,No
 "Ramsey, Robert (Bob)",Robert Ramsey (Bob),Republican,Maryville,Campaign Account,No,,No
-"Martin, Jason",Jason Martin (Democrat of Nashville),Democrat,Nashville,Campaign Account,No,,No
+"Martin, Jason (Governor Campaign)",Jason Martin (Governor Campaign),Democrat,Nashville,Campaign Account,No,,No
 "Frost, Dominique",Dominique Frost (Democrat of Memphis),Democrat,Memphis,Campaign Account,No,,No
 "Cooper, Tanya L.",Tanya L. Cooper (Democrat of Memphis),Democrat,Memphis,Campaign Account,No,,No
 "Blount, Rod",Rod Blount (Democrat of Memphis),Democrat,Memphis,Campaign Account,No,,No
@@ -595,11 +595,11 @@ Tennessee Republican Caucus,Tennessee Republican Caucus (Republican),Republican,
 "Knight, Jason D.",Jason D. Knight (Republican of Clarksville),Republican,Clarksville,Campaign Account,No,,No
 "Burke, Rebecca Ann",Rebecca Ann Burke (Republican of Franklin),Republican,Franklin,Campaign Account,No,,No
 "Purington, Rebecca",Rebecca Purington (Democrat of Brentwood),Democrat,Brentwood,Campaign Account,No,,No
-"Boyd, Randy",Randy Boyd (Republican of Knoxville),Republican,Knoxville,Campaign Account,No,,No
+"Boyd, Randy (Governor Campaign)",Randy Boyd (Governor Campaign),Republican,Knoxville,Campaign Account,No,,No
 "Bush, Jay",Jay Bush (Republican of Jackson),Republican,Jackson,Campaign Account,No,,No
 "Hartley, Brad",Brad Hartley (Democrat of Tellico Plains),Democrat,Tellico Plains,Campaign Account,No,,No
 "Nelson, Edward",Edward Nelson (Democrat of Knoxville),Democrat,Knoxville,Campaign Account,No,,No
-"Dean, Karl",Karl Dean (Democrat of Nashville),Democrat,Nashville,Campaign Account,No,,No
+"Dean, Karl (Governor Campaign)",Karl Dean (Governor Campaign),Democrat,Nashville,Campaign Account,No,,No
 "Grimm, Kristen M",Kristen Grimm (Democrat of Franklin),Democrat,Franklin,Campaign Account,No,,No
 "Moody, Brent",Brent Moody (Republican of Nashville),Republican,Nashville,Campaign Account,No,,No
 "Ballinger, Jamie",Jamie Ballinger (Democrat of Knoxville),Democrat,Knoxville,Campaign Account,No,,No

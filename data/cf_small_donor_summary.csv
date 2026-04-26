@@ -12,7 +12,7 @@ politician_key,donor_name,donor_type,num_donors,num_donations,total_15yr,total_1
 "Arp, Doyle",Small Donors (Under $100),Small Donor Summary,20,20,965,965,0,0
 "Ashworth, Julie Byrd",Small Donors (Under $100),Small Donor Summary,2,3,141,141,0,0
 "Atchley, Fred",Small Donors (Under $100),Small Donor Summary,17,21,905,905,905,200
-"Atwater, Carnita",Small Donors (Under $100),Small Donor Summary,1,1,50,50,50,0
+"Atwater, Carnita (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,1,1,50,50,50,0
 "Averwater, Jami K.",Small Donors (Under $100),Small Donor Summary,1,1,23,23,23,0
 "Backus, Anne",Small Donors (Under $100),Small Donor Summary,150,283,8554,8554,8554,629
 "Bailey, Paul",Small Donors (Under $100),Small Donor Summary,5,10,530,530,530,430
@@ -39,7 +39,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Bounds, Patti",Small Donors (Under $100),Small Donor Summary,13,13,908,908,0,0
 "Bowling, Janice",Small Donors (Under $100),Small Donor Summary,91,102,4520,1575,50,0
 "Boyd, Clark",Small Donors (Under $100),Small Donor Summary,5,5,306,225,100,50
-"Boyd, Randy",Small Donors (Under $100),Small Donor Summary,90,119,3777,3777,0,0
+"Boyd, Randy (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,90,119,3777,3777,0,0
 "Brabson, Vanderbilt",Small Donors (Under $100),Small Donor Summary,10,12,508,0,0,0
 "Braddock, Leslie",Small Donors (Under $100),Small Donor Summary,1,1,23,23,23,0
 "Brasher, Tyler",Small Donors (Under $100),Small Donor Summary,46,53,2193,2193,2193,0
@@ -129,7 +129,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Davis, Nevada Scott",Small Donors (Under $100),Small Donor Summary,1,2,64,64,0,0
 "Dawson, Richard",Small Donors (Under $100),Small Donor Summary,126,181,6850,6850,0,0
 "Day, Lauri",Small Donors (Under $100),Small Donor Summary,1,1,25,0,0,0
-"Dean, Karl",Small Donors (Under $100),Small Donor Summary,70,152,6074,6074,0,0
+"Dean, Karl (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,70,152,6074,6074,0,0
 "Degan, Woody",Small Donors (Under $100),Small Donor Summary,2,2,75,0,0,0
 "Dennis, Vance",Small Donors (Under $100),Small Donor Summary,5,5,175,0,0,0
 "Dewitt, Deanne",Small Donors (Under $100),Small Donor Summary,27,30,1400,1400,1400,0
@@ -184,7 +184,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Franklin, Telisa",Small Donors (Under $100),Small Donor Summary,11,12,541,541,541,491
 "Freeman, Bob",Small Donors (Under $100),Small Donor Summary,95,170,6899,6899,6224,1790
 "Frensley Webb, Jennifer",Small Donors (Under $100),Small Donor Summary,28,33,1510,1510,1510,0
-"Fritts, Monty",Small Donors (Under $100),Small Donor Summary,161,207,8350,8350,8350,6447
+"Fritts, Monty (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,161,207,8350,8350,8350,6447
 "Gant, Ron",Small Donors (Under $100),Small Donor Summary,70,196,3550,3350,2800,2488
 "Gardenhire, Todd",Small Donors (Under $100),Small Donor Summary,13,13,609,593,150,0
 "Garrett, Johnny",Small Donors (Under $100),Small Donor Summary,7,7,350,350,300,0
@@ -203,7 +203,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Gorman, Allison",Small Donors (Under $100),Small Donor Summary,185,372,10217,10217,10217,0
 "Gotto, Jim",Small Donors (Under $100),Small Donor Summary,26,29,1282,0,0,0
 "Gravitt, Marc",Small Donors (Under $100),Small Donor Summary,2,2,75,25,0,0
-"Green, Jerri",Small Donors (Under $100),Small Donor Summary,1989,2347,69133,69133,65374,65374
+"Green, Jerri (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,1989,2347,69133,69133,65374,65374
 "Green, Mark",Small Donors (Under $100),Small Donor Summary,12,17,869,537,0,0
 "Green, Mark E.",Small Donors (Under $100),Small Donor Summary,75,92,3588,0,0,0
 "Gresham, Dolores",Small Donors (Under $100),Small Donor Summary,2,2,140,0,0,0
@@ -306,7 +306,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Kirk, Bob",Small Donors (Under $100),Small Donor Summary,1,1,50,50,0,0
 "Kosack, Kurt",Small Donors (Under $100),Small Donor Summary,46,56,2124,2124,2124,0
 "Kumar, Sabi",Small Donors (Under $100),Small Donor Summary,2,2,124,0,0,0
-"Kurtz, Adam",Small Donors (Under $100),Small Donor Summary,53,65,2970,2970,2970,2970
+"Kurtz, Adam (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,53,65,2970,2970,2970,2970
 "Kyle, Jim",Small Donors (Under $100),Small Donor Summary,1,1,50,0,0,0
 "Kyle, Sara",Small Donors (Under $100),Small Donor Summary,3,3,80,55,5,0
 "Lafferty, Justin",Small Donors (Under $100),Small Donor Summary,4,4,225,225,75,0
@@ -318,7 +318,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Lawless, Angie",Small Donors (Under $100),Small Donor Summary,1,1,50,50,50,50
 "Leatherwood, Tom",Small Donors (Under $100),Small Donor Summary,1,1,20,20,0,0
 "Lecompte, Edward",Small Donors (Under $100),Small Donor Summary,5,5,125,125,125,0
-"Lee, Bill",Small Donors (Under $100),Small Donor Summary,60,77,3584,3584,688,104
+"Lee, Bill (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,60,77,3584,3584,688,104
 "Lejong-McCash, Delynn",Small Donors (Under $100),Small Donor Summary,2,2,77,77,0,0
 "Lennon, Kathy",Small Donors (Under $100),Small Donor Summary,106,164,6897,6897,6897,0
 "Lewis, Daniel T.",Small Donors (Under $100),Small Donor Summary,2,2,75,0,0,0
@@ -349,7 +349,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Marsh, Pat",Small Donors (Under $100),Small Donor Summary,6,6,300,100,0,0
 "Martin, Brock",Small Donors (Under $100),Small Donor Summary,22,52,2648,2648,2648,1600
 "Martin, Greg",Small Donors (Under $100),Small Donor Summary,23,48,2070,2070,2070,200
-"Martin, Jason",Small Donors (Under $100),Small Donor Summary,3919,8969,201646,201646,201646,0
+"Martin, Jason (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,3919,8969,201646,201646,201646,0
 "Martin, Robert",Small Donors (Under $100),Small Donor Summary,7,7,208,0,0,0
 "Mason, Johnathan",Small Donors (Under $100),Small Donor Summary,1,1,50,50,0,0
 "Massey, Becky",Small Donors (Under $100),Small Donor Summary,84,88,4420,1844,1304,0
@@ -419,7 +419,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Phillips, Allie",Small Donors (Under $100),Small Donor Summary,7273,8803,194843,194843,194843,42121
 "Phillips, Mariah",Small Donors (Under $100),Small Donor Summary,14,16,758,758,0,0
 "Pierce, Alex",Small Donors (Under $100),Small Donor Summary,15,24,604,604,604,0
-"Pinkston, Lauren",Small Donors (Under $100),Small Donor Summary,289,463,13835,13835,13835,13835
+"Pinkston, Lauren (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,289,463,13835,13835,13835,13835
 "Pitts, Joe",Small Donors (Under $100),Small Donor Summary,2,3,150,0,0,0
 "Poczobut, David",Small Donors (Under $100),Small Donor Summary,12,13,538,538,538,0
 "Pody, Mark",Small Donors (Under $100),Small Donor Summary,2,2,100,100,0,0
@@ -463,7 +463,7 @@ Bennett  Andrew F.,Small Donors (Under $100),Small Donor Summary,7,9,279,0,0,0
 "Rogers, Sydney",Small Donors (Under $100),Small Donor Summary,39,42,2013,2013,0,0
 "Roller, Steve",Small Donors (Under $100),Small Donor Summary,2,2,125,0,0,0
 "Romero, Eva",Small Donors (Under $100),Small Donor Summary,4,5,256,256,256,256
-"Rose, John",Small Donors (Under $100),Small Donor Summary,448,601,16786,16786,16786,16786
+"Rose, John (Governor Campaign)",Small Donors (Under $100),Small Donor Summary,448,601,16786,16786,16786,16786
 "Rose, Paul",Small Donors (Under $100),Small Donor Summary,1,2,100,100,100,0
 "Rounds, Harold",Small Donors (Under $100),Small Donor Summary,1,6,258,0,0,0
 "Rowland, Elizabeth",Small Donors (Under $100),Small Donor Summary,117,152,5024,5024,0,0
