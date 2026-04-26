@@ -184,15 +184,11 @@
     ];
 
     return `
-      <div class="tn-header">
-        <div class="tn-header-eyebrow">Tennessee Lookout — Cash For Clout</div>
-        <h2 class="tn-header-title">Tennessee Political Spending Database</h2>
-        <p class="tn-header-desc">
-          Every year millions of dollars flow to Nashville, flooding the halls of Tennessee’s state capitol as a small number of deep-pocketed groups attempt to influence lawmakers.
-          The money comes in many streams through different legal channels, all aiming to influence regulations, push for tax breaks and secure government contracts, often to further private interests instead of the public. The Tennessee Lookout, relying on publicly filed lobbying and campaign finance reports, created a tool to search Tennessee’s top political spenders and recipients.
-          This page allows users to discover who’s spending the most cash to influence lawmakers and different ways groups spend money to gain influence. 
-        </p>
-      </div>
+      <div class="tn-header-eyebrow">Tennessee Lookout — Cash For Clout</div>
+      <h2 class="tn-header-title">Tennessee Political Spending Database</h2>
+      <p class="tn-header-desc">Every year millions of dollars flow to Nashville, flooding the halls of Tennessee's state capitol as a small number of deep-pocketed groups attempt to influence lawmakers.</p>
+      <p class="tn-header-desc">The money comes in many streams through different legal channels, all aiming to influence regulations, push for tax breaks and secure government contracts, often to further private interests instead of the public. The Tennessee Lookout, relying on publicly filed lobbying and campaign finance reports, created a tool to search Tennessee's top political spenders and recipients.</p>
+      <p class="tn-header-desc">This page allows users to discover who's spending the most cash to influence lawmakers and different ways groups spend money to gain influence.</p>
       <nav class="tn-nav">
         ${navItems.map(n => `
           <button class="tn-nav-btn ${state.view === n.view ? 'active' : ''}" data-view="${n.view}">${n.label}</button>
