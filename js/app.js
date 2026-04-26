@@ -173,7 +173,7 @@
     }
   }
 
-  // ── Shell ────────────────────────────────────────────────────────────────────
+ // ── Shell ────────────────────────────────────────────────────────────────────
   function renderShell() {
     const navItems = [
       { view: 'landing',      label: 'Home' },
@@ -183,7 +183,7 @@
       { view: 'ie',           label: 'Independent Expenditures' },
     ];
 
-   return `
+    return `
       <nav class="tn-nav">
         ${navItems.map(n => `
           <button class="tn-nav-btn ${state.view === n.view ? 'active' : ''}" data-view="${n.view}">${n.label}</button>
@@ -191,6 +191,7 @@
       </nav>
       <div id="tn-view-content"></div>
     `;
+  }
 
   // ── Landing ──────────────────────────────────────────────────────────────────
   function renderLanding(container) {
