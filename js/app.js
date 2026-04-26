@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@747d4bb6d8819b614e909561c35e55aff40b1a9c/';
+  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@62d931d52360bcfffb6a9eb1c1dfbb3ab55068cc/';
   const DATA_URL = BASE_URL + 'data/';
   const JS_URL   = BASE_URL + 'js/';
 
@@ -173,25 +173,17 @@
     }
   }
 
-  // ── Shell ────────────────────────────────────────────────────────────────────
+ // ── Shell ────────────────────────────────────────────────────────────────────
   function renderShell() {
     const navItems = [
       { view: 'landing',      label: 'Home' },
       { view: 'top-spenders', label: 'Top Political Spenders' },
-      { view: 'lobbying',     label: 'Lobbying' },
       { view: 'campaign',     label: 'Campaign Contributions' },
+      { view: 'lobbying',     label: 'Lobbying' },
       { view: 'ie',           label: 'Independent Expenditures' },
     ];
 
     return `
-      <div class="tn-header">
-        <div class="tn-header-eyebrow">Tennessee Lookout — Cash For Clout</div>
-        <h2 class="tn-header-title">Tennessee Political Spending Database</h2>
-        <p class="tn-header-desc">
-          Track lobbying spending, campaign contributions, and independent expenditures
-          by companies and organizations influencing Tennessee politics.
-        </p>
-      </div>
       <nav class="tn-nav">
         ${navItems.map(n => `
           <button class="tn-nav-btn ${state.view === n.view ? 'active' : ''}" data-view="${n.view}">${n.label}</button>
@@ -205,16 +197,16 @@
   function renderLanding(container) {
     container.innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px;">
-        ${landingCard('Top Political Spenders', 'See which companies and organizations spend the most across lobbying, campaign contributions, and independent expenditures.', 'top-spenders', '🏆')}
-        ${landingCard('Lobbying', 'Track spending by companies hiring lobbyists to influence the Tennessee legislature, reported semi-annually.', 'lobbying', '🏛️')}
-        ${landingCard('Campaign Contributions', 'Search contributions to Tennessee politicians and PACs by organization, company, or individual donor.', 'campaign', '💰')}
-        ${landingCard('Independent Expenditures', 'Follow outside spending by groups supporting or opposing Tennessee candidates.', 'ie', '📊')}
+        ${landingCard('Top Political Spenders', 'See which companies and organizations spend the most across lobbying, campaign contributions and independent expenditures.', 'top-spenders', '🏆')}
+        ${landingCard('Lobbying', 'Track what companies and organizations spend the most to influence the Tennessee legislature.', 'lobbying', '🏛️')}
+        ${landingCard('Campaign Contributions', 'Search contributions to Tennessee politicians and their PACs, and by companies donating the most to state campaigns.', 'campaign', '💰')}
+        ${landingCard('Independent Expenditures', 'Follow outside spending by groups supporting or opposing Tennessee state candidates.', 'ie', '📊')}
       </div>
       <div class="tn-methodology">
-        <strong>About this database:</strong> Data comes from the Tennessee Registry of Election Finance
-        and the Tennessee Bureau of Ethics and Campaign Finance. Lobbying figures are midpoint estimates
-        converted from ranges reported to the state. Campaign finance and independent expenditure figures
-        reflect actual reported dollar amounts. Updated April 2026.
+        <strong>About this database:</strong> The underlying data for this story comes from a lobbying report database and a campaign finance report 
+        database maintained by the Tennessee Bureau of Ethics and Campaign Finance. 
+        To create the top donor list, the Lookout combined spending from three categories 
+        — lobbying, campaign donations and independent expenditures. Last updated April 26, 2026.
       </div>
     `;
 
@@ -231,8 +223,8 @@
       " onmouseover="this.style.borderColor='var(--tn-accent)';this.style.boxShadow='var(--tn-shadow-md)'"
          onmouseout="this.style.borderColor='var(--tn-border)';this.style.boxShadow='var(--tn-shadow)'">
         <div style="font-size:28px;margin-bottom:10px;">${emoji}</div>
-        <div style="font-family:var(--tn-font-serif);font-size:17px;font-weight:600;margin-bottom:6px;color:var(--tn-text);">${title}</div>
-        <div style="font-size:13px;color:var(--tn-text-muted);line-height:1.5;">${desc}</div>
+        <div style="font-family:var(--tn-font-serif);font-size:18px;font-weight:600;margin-bottom:6px;color:var(--tn-text);">${title}</div>
+        <div style="font-size:14px;color:var(--tn-text-muted);line-height:1.5;">${desc}</div>
       </div>
     `;
   }

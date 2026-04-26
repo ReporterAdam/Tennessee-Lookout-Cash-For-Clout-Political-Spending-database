@@ -38,11 +38,13 @@
 /* ── App container ─────────────────────────────────────────────────────────── */
 #tn-spending-app {
   font-family:    var(--tn-font-sans);
-  font-size:      15px;
+  font-size:      16px;
   color:          var(--tn-text);
   background:     var(--tn-bg);
   line-height:    1.5;
   -webkit-font-smoothing: antialiased;
+  max-width:      1100px;   /* caps how wide it gets on large screens */
+  margin:         0 auto;   /* centers it horizontally */
 }
 
 #tn-spending-app * {
@@ -75,10 +77,11 @@
 }
 
 .tn-header-desc {
-  font-size:  14px;
+  font-size:  15px;      /* was 14px */
   color:      var(--tn-text-muted);
-  max-width:  640px;
-  margin:     0;
+  max-width:  740px;     /* was 640px — wider column */
+  margin: 0 0 8px 0;
+  max-width: 100%;
 }
 
 /* ── Navigation ────────────────────────────────────────────────────────────── */
@@ -93,7 +96,7 @@
 
 .tn-nav-btn {
   font-family:    var(--tn-font-sans);
-  font-size:      13px;
+  font-size:      16px;
   font-weight:    500;
   color:          var(--tn-text-muted);
   background:     transparent;
@@ -528,6 +531,25 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+}
+
+/* ── Responsive padding/width ──────────────────────────────────────────────── */
+#tn-spending-app {
+  padding: 0 16px;  /* base padding for all screens */
+}
+
+@media (min-width: 641px) {
+  /* tablet */
+  #tn-spending-app {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* desktop */
+  #tn-spending-app {
+    padding: 0 40px;
+  }
 }
 
 @media (max-width: 640px) {
