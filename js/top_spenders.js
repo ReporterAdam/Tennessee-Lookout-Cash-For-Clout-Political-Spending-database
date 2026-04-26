@@ -5,6 +5,18 @@
 window.TNTopSpenders = (function () {
   'use strict';
 
+function flexMatch(name, query) {
+  if (!query) return true;
+  const n = (name || '').toLowerCase();
+  if (n.includes(query)) return true;
+  if (n.includes(',')) {
+    const parts = n.split(',').map(s => s.trim());
+    const reversed = parts.slice(1).join(' ') + ' ' + parts[0];
+    if (reversed.includes(query)) return true;
+  }
+  return false;
+}
+   
   const PAGE_SIZE = 50;
 
   const THRESHOLDS = {
@@ -48,23 +60,29 @@ window.TNTopSpenders = (function () {
     const cfCol     = eraCol(era, 'cf');
     const ieCol     = eraCol(era, 'ie');
 
-    const query = (state.query || '').toLowerCase();
-    let rows = data.filter(r => {
-      const meetsThreshold = (parseFloat(r[grandCol]) || 0) >= threshold;
-      const matchesSearch  = !query ||
-        (r.entity_name || '').toLowerCase().includes(query) ||
-        (r.aliases || []).some(a => a.toLowerCase().includes(query));
-      return meetsThreshold && matchesSearch;
-    });
-
-    const sortCol = state.sortCol || grandCol;
-    const sortDir = state.sortDir || 'desc';
-    rows = rows.slice().sort((a, b) => {
-      const av = parseFloat(a[sortCol]) || 0;
-      const bv = parseFloat(b[sortCol]) || 0;
-      return sortDir === 'desc' ? bv - av : av - bv;
-    });
-
+   // 1. filter by threshold only
+   let rows = data.filter(r => (parseFloat(r[grandCol]) || 0) >= threshold);
+      
+      // 2. sort
+      const sortCol = state.sortCol || grandCol;
+      const sortDir = state.sortDir || 'desc';
+      rows = rows.slice().sort((a, b) => {
+        const av = parseFloat(a[sortCol]) || 0;
+        const bv = parseFloat(b[sortCol]) || 0;
+        return sortDir === 'desc' ? bv - av : av - bv;
+      });
+      
+      // 3. assign original rank before search filter
+      rows = rows.map((r, i) => ({ ...r, _rank: i + 1 }));
+      
+      // 4. now filter by search
+      const query = (state.query || '').toLowerCase();
+      if (query) {
+        rows = rows.filter(r =>
+          (r.entity_name || '').toLowerCase().includes(query) ||
+          (r.aliases || []).some(a => a.toLowerCase().includes(query))
+        );
+      }
     const page    = state.page || 0;
     const visible = rows.slice(0, (page + 1) * PAGE_SIZE);
     const hasMore = rows.length > visible.length;
@@ -144,7 +162,7 @@ window.TNTopSpenders = (function () {
 
               return `
                 <tr>
-                  <td class="rank">${i + 1}</td>
+                  <td class="rank">${r._rank}</td>
                   <td class="name-link" data-key="${encodeURIComponent(r.entity_name)}">
                     ${r.entity_name}
                     ${r.website ? `<a href="${r.website}" target="_blank" style="color:var(--tn-text-light);font-size:11px;margin-left:4px;" onclick="event.stopPropagation()">↗</a>` : ''}
@@ -168,7 +186,7 @@ window.TNTopSpenders = (function () {
     let searchTimer;
     container.querySelector('#ts-search').addEventListener('input', e => {
       clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
 
     container.querySelectorAll('.tn-table th[data-sort]').forEach(th => {
