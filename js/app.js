@@ -232,8 +232,8 @@
       " onmouseover="this.style.borderColor='var(--tn-accent)';this.style.boxShadow='var(--tn-shadow-md)'"
          onmouseout="this.style.borderColor='var(--tn-border)';this.style.boxShadow='var(--tn-shadow)'">
         <div style="font-size:28px;margin-bottom:10px;">${emoji}</div>
-        <div style="font-family:var(--tn-font-serif);font-size:17px;font-weight:600;margin-bottom:6px;color:var(--tn-text);">${title}</div>
-        <div style="font-size:13px;color:var(--tn-text-muted);line-height:1.5;">${desc}</div>
+        <div style="font-family:var(--tn-font-serif);font-size:18px;font-weight:600;margin-bottom:6px;color:var(--tn-text);">${title}</div>
+        <div style="font-size:14px;color:var(--tn-text-muted);line-height:1.5;">${desc}</div>
       </div>
     `;
   }
