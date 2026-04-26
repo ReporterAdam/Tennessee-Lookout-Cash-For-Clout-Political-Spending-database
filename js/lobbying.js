@@ -5,6 +5,18 @@
 window.TNLobbying = (function () {
   'use strict';
 
+function flexMatch(name, query) {
+  if (!query) return true;
+  const n = (name || '').toLowerCase();
+  if (n.includes(query)) return true;
+  if (n.includes(',')) {
+    const parts = n.split(',').map(s => s.trim());
+    const reversed = parts.slice(1).join(' ') + ' ' + parts[0];
+    if (reversed.includes(query)) return true;
+  }
+  return false;
+}
+
   const PAGE_SIZE = 50;
 
   function getEra(state) { return state.era || '5yr'; }
@@ -30,7 +42,7 @@ window.TNLobbying = (function () {
     const eraCol  = lobEraCol(era);
     const query   = (state.query || '').toLowerCase();
 
-    let rows = summary.filter(r => !query || (r.company_name || '').toLowerCase().includes(query));
+    let rows = summary.filter(r => flexMatch(r.company_name, query));
 
     const sortCol = state.sortCol || eraCol;
     const sortDir = state.sortDir || 'desc';
@@ -111,7 +123,7 @@ window.TNLobbying = (function () {
     let searchTimer;
     container.querySelector('#lobbying-search').addEventListener('input', e => {
       clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
 
     container.querySelectorAll('.tn-table th[data-sort]').forEach(th => {

@@ -6,6 +6,18 @@
 window.TNCampaign = (function () {
   'use strict';
 
+function flexMatch(name, query) {
+  if (!query) return true;
+  const n = (name || '').toLowerCase();
+  if (n.includes(query)) return true;
+  if (n.includes(',')) {
+    const parts = n.split(',').map(s => s.trim());
+    const reversed = parts.slice(1).join(' ') + ' ' + parts[0];
+    if (reversed.includes(query)) return true;
+  }
+  return false;
+}
+
   const PAGE_SIZE = 25;
 
   function getEra(state) { return state.era || '5yr'; }
@@ -67,8 +79,7 @@ window.TNCampaign = (function () {
 
     if (filter === 'current') rows = rows.filter(r => r.current_elected === 'Yes');
     if (query) rows = rows.filter(r =>
-      (r.display_name || '').toLowerCase().includes(query) ||
-      (r.politician_key || '').toLowerCase().includes(query)
+      flexMatch(r.display_name, query) || flexMatch(r.politician_key, query)
     );
 
     rows = rows
@@ -148,7 +159,7 @@ window.TNCampaign = (function () {
     let timer;
     container.querySelector('#cf-pol-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'politician' }));
@@ -350,8 +361,7 @@ window.TNCampaign = (function () {
     const col   = `total_${era}`;
 
     let rows = donors.filter(r => {
-      const matchSearch = !query || (r.donor_name || '').toLowerCase().includes(query);
-      return matchSearch && parseFloat(r[col]) > 0;
+     return flexMatch(r.donor_name, query) && parseFloat(r[col]) > 0;
     }).sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
     const page    = state.page || 0;
@@ -409,7 +419,7 @@ window.TNCampaign = (function () {
     let timer;
     container.querySelector('#cf-donor-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'donors' }));
