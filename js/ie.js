@@ -7,6 +7,18 @@
 window.TNIE = (function () {
   'use strict';
 
+function flexMatch(name, query) {
+  if (!query) return true;
+  const n = (name || '').toLowerCase();
+  if (n.includes(query)) return true;
+  if (n.includes(',')) {
+    const parts = n.split(',').map(s => s.trim());
+    const reversed = parts.slice(1).join(' ') + ' ' + parts[0];
+    if (reversed.includes(query)) return true;
+  }
+  return false;
+}
+
   const PAGE_SIZE = 50;
 
   function getEra(state) { return state.era || '5yr'; }
@@ -81,8 +93,8 @@ window.TNIE = (function () {
     const query = (state.query || '').toLowerCase();
 
     let rows = spenders.filter(r => {
-      const matchSearch = !query || (r.spender_name || '').toLowerCase().includes(query);
-      return matchSearch && parseFloat(r[col]) > 0;
+      return flexMatch(r.spender_name, query) && parseFloat(r[col]) > 0;
+    })
     }).sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
     const page    = state.page || 0;
