@@ -184,14 +184,6 @@
     ];
 
     return `
-      <div class="tn-header">
-        <div class="tn-header-eyebrow">Tennessee Lookout — Cash For Clout</div>
-        <h2 class="tn-header-title">Tennessee Political Spending Database</h2>
-        <p class="tn-header-desc">
-          Track lobbying spending, campaign contributions, and independent expenditures
-          by companies and organizations influencing Tennessee politics.
-        </p>
-      </div>
       <nav class="tn-nav">
         ${navItems.map(n => `
           <button class="tn-nav-btn ${state.view === n.view ? 'active' : ''}" data-view="${n.view}">${n.label}</button>
