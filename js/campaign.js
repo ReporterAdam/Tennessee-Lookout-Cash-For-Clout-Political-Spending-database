@@ -495,7 +495,7 @@ window.TNCampaign = (function () {
       btn.addEventListener('click', () => navigate({ era: btn.dataset.era }));
     });
     container.querySelectorAll('.name-link[data-pol]').forEach(cell => {
-      cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.pol), subview: 'politician' }));
+      cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.pol), subview: 'politician', era: '2025' }));
     });
   }
 
