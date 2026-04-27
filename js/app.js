@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@1412b98f0b9c6f1647bad78354206457ee579fa1/';
+  const BASE_URL = 'https://cdn.jsdelivr.net/gh/ReporterAdam/Tennessee-Lookout-Cash-For-Clout-Political-Spending-database@7561708446f8bdeb30a666290d12dc7d2213cd85/';
   const DATA_URL = BASE_URL + 'data/';
   const JS_URL   = BASE_URL + 'js/';
 
@@ -197,10 +197,10 @@
   function renderLanding(container) {
     container.innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px;">
-        ${landingCard('Top Political Spenders', 'See which companies and organizations spend the most across lobbying, campaign contributions, and independent expenditures.', 'top-spenders', '🏆')}
-        ${landingCard('Lobbying', 'Track spending by companies hiring lobbyists to influence the Tennessee legislature, reported semi-annually.', 'lobbying', '🏛️')}
+        ${landingCard('Top Political Spenders', 'See which companies, people and associations spend the most across lobbying, campaign contributions and independent expenditures.', 'top-spenders', '🏆')}
+        ${landingCard('Lobbying', 'Track spending by companies hiring lobbyists to influence Tennessee lawmakers, reported semi-annually.', 'lobbying', '🏛️')}
         ${landingCard('Campaign Contributions', 'Search contributions to Tennessee politicians and PACs by organization, company, or individual donor.', 'campaign', '💰')}
-        ${landingCard('Independent Expenditures', 'Follow outside spending by groups supporting or opposing Tennessee candidates.', 'ie', '📊')}
+        ${landingCard('Independent Expenditures', 'Follow outside spending by groups supporting or opposing Tennessee candidates.', 'ie', '📺')}
       </div>
       <div class="tn-methodology">
         <strong>About this database:</strong> Data comes from the Tennessee Registry of Election Finance

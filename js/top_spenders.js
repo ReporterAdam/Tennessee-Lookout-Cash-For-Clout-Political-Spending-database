@@ -120,7 +120,7 @@ window.TNTopSpenders = (function () {
               <th>Organization</th>
               <th class="num" data-sort="${grandCol}" style="font-weight:700;">Total</th>
               <th class="num" data-sort="${lobCol}">Lobbying</th>
-              <th class="num" data-sort="${cfCol}">Campaign Finance</th>
+              <th class="num" data-sort="${cfCol}">Campaign Contributions</th>
               <th class="num" data-sort="${ieCol}">Ind. Expenditures</th>
             </tr>
           </thead>
@@ -136,7 +136,7 @@ window.TNTopSpenders = (function () {
                 : `<td class="money" style="color:var(--tn-text-light);">—</td>`;
 
               const cfCell = cfAmt > 0
-                ? `<td class="money ts-cf-link" data-entity="${encodeURIComponent(r.entity_name)}" style="cursor:pointer;color:var(--tn-blue);" title="View campaign finance details">${fmt(cfAmt)}</td>`
+                ? `<td class="money ts-cf-link" data-entity="${encodeURIComponent(r.entity_name)}" style="cursor:pointer;color:var(--tn-blue);" title="View campaign contribution details">${fmt(cfAmt)}</td>`
                 : `<td class="money" style="color:var(--tn-text-light);">—</td>`;
 
               const ieCell = ieAmt > 0
@@ -180,19 +180,18 @@ window.TNTopSpenders = (function () {
       });
     });
 
-    container.querySelectorAll('.name-link[data-key]').forEach(cell => {
-      cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key) }));
-    });
-
-    container.querySelectorAll('.ts-lob-link').forEach(cell => {
-      cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'lobbying', entity: decodeURIComponent(cell.dataset.entity), subview: null }); });
-    });
-    container.querySelectorAll('.ts-cf-link').forEach(cell => {
-      cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'campaign', entity: decodeURIComponent(cell.dataset.entity), subview: 'donors' }); });
-    });
-    container.querySelectorAll('.ts-ie-link').forEach(cell => {
-      cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'ie', entity: decodeURIComponent(cell.dataset.entity), subview: 'ie-spenders' }); });
-    });
+   container.querySelectorAll('.name-link[data-key]').forEach(cell => {
+     cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), era: '2025' }));
+   });
+   container.querySelectorAll('.ts-lob-link').forEach(cell => {
+     cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'lobbying', entity: decodeURIComponent(cell.dataset.entity), subview: null, era: '2025' }); });
+   });
+   container.querySelectorAll('.ts-cf-link').forEach(cell => {
+     cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'campaign', entity: decodeURIComponent(cell.dataset.entity), subview: 'donors', era: '2025' }); });
+   });
+   container.querySelectorAll('.ts-ie-link').forEach(cell => {
+     cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'ie', entity: decodeURIComponent(cell.dataset.entity), subview: 'ie-spenders', era: '2025' }); });
+   });
 
     const toggleBtn   = container.querySelector('#ts-methodology-toggle');
     const toggleBody  = container.querySelector('#ts-methodology-body');
@@ -229,7 +228,7 @@ window.TNTopSpenders = (function () {
           <div class="tn-profile-name">${row.entity_name}</div>
           <div class="tn-profile-meta">
             ${row.has_lobbying ? '<span>Lobbying</span>' : ''}
-            ${row.has_cf       ? '<span>Campaign Finance</span>' : ''}
+            ${row.has_cf       ? '<span>Campaign Contributions</span>' : ''}
             ${row.has_ie       ? '<span>Independent Expenditures</span>' : ''}
             ${row.website ? `<a href="${row.website}" target="_blank" style="color:rgba(255,255,255,0.8);">Website ↗</a>` : ''}
           </div>
@@ -257,7 +256,7 @@ window.TNTopSpenders = (function () {
             ` : ''}
             ${row.has_cf ? `
               <div class="tn-stat-box">
-                <div class="tn-stat-label">Campaign Finance</div>
+                <div class="tn-stat-label">Campaign Contributions</div>
                 <div class="tn-stat-value">${fmtFull(row[`cf_total_${era}`] || 0)}</div>
               </div>
             ` : ''}
