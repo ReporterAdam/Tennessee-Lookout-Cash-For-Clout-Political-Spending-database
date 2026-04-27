@@ -92,11 +92,12 @@
   border-bottom:  1px solid var(--tn-border);
   padding-bottom: 0;
   flex-wrap:      wrap;
+justify-content:  center;
 }
 
 .tn-nav-btn {
   font-family:    var(--tn-font-sans);
-  font-size:      16px;
+  font-size:      17px;
   font-weight:    500;
   color:          var(--tn-text-muted);
   background:     transparent;
