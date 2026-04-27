@@ -169,7 +169,7 @@ window.TNTopSpenders = (function () {
     let searchTimer;
     container.querySelector('#ts-search').addEventListener('input', e => {
       clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
 
     container.querySelectorAll('.tn-table th[data-sort]').forEach(th => {
@@ -218,7 +218,8 @@ window.TNTopSpenders = (function () {
     const row  = data.find(r => r.entity_name === state.entity);
     if (!row) { container.innerHTML = `<div class="tn-empty">Entity not found.</div>`; return; }
 
-    const era = getEra(state);
+    const era      = getEra(state);
+    const eraLabel = window.TN_ERA_OPTS.find(([y]) => y === era)?.[1] || era;
 
     container.innerHTML = `
       <button class="tn-back-btn" id="ts-back">← Back to top spenders</button>
@@ -242,14 +243,30 @@ window.TNTopSpenders = (function () {
             `).join('')}
           </div>
 
-          <h3 class="tn-section-heading">Total Political Spending</h3>
+          <h3 class="tn-section-heading">Total Political Spending — ${eraLabel}</h3>
           <div class="tn-profile-stats">
-            ${window.TN_ERA_OPTS.map(([y, l]) => `
+            <div class="tn-stat-box">
+              <div class="tn-stat-label">Grand Total</div>
+              <div class="tn-stat-value accent">${fmtFull(row[`grand_total_${era}`] || 0)}</div>
+            </div>
+            ${row.has_lobbying ? `
               <div class="tn-stat-box">
-                <div class="tn-stat-label">${l}</div>
-                <div class="tn-stat-value ${y === era ? 'accent' : ''}">${fmtFull(row[`grand_total_${y}`] || 0)}</div>
+                <div class="tn-stat-label">Lobbying</div>
+                <div class="tn-stat-value">${fmtFull(row[`lob_total_${era}`] || 0)}</div>
               </div>
-            `).join('')}
+            ` : ''}
+            ${row.has_cf ? `
+              <div class="tn-stat-box">
+                <div class="tn-stat-label">Campaign Finance</div>
+                <div class="tn-stat-value">${fmtFull(row[`cf_total_${era}`] || 0)}</div>
+              </div>
+            ` : ''}
+            ${row.has_ie ? `
+              <div class="tn-stat-box">
+                <div class="tn-stat-label">Ind. Expenditures</div>
+                <div class="tn-stat-value">${fmtFull(row[`ie_total_${era}`] || 0)}</div>
+              </div>
+            ` : ''}
           </div>
 
           <h3 class="tn-section-heading">Breakdown by Category</h3>
@@ -257,24 +274,24 @@ window.TNTopSpenders = (function () {
             <table class="tn-table">
               <thead><tr>
                 <th>Category</th>
-                ${window.TN_ERA_OPTS.map(([y, l]) => `<th class="num">${l}</th>`).join('')}
+                <th class="num">${eraLabel}</th>
               </tr></thead>
               <tbody>
                 ${row.has_lobbying ? `<tr>
                   <td>🏛️ Lobbying</td>
-                  ${window.TN_ERA_OPTS.map(([y]) => `<td class="money">${fmtFull(row[`lob_total_${y}`] || 0)}</td>`).join('')}
+                  <td class="money">${fmtFull(row[`lob_total_${era}`] || 0)}</td>
                 </tr>` : ''}
                 ${row.has_cf ? `<tr>
                   <td>💰 Campaign Finance</td>
-                  ${window.TN_ERA_OPTS.map(([y]) => `<td class="money">${fmtFull(row[`cf_total_${y}`] || 0)}</td>`).join('')}
+                  <td class="money">${fmtFull(row[`cf_total_${era}`] || 0)}</td>
                 </tr>` : ''}
                 ${row.has_ie ? `<tr>
                   <td>📊 Independent Expenditures</td>
-                  ${window.TN_ERA_OPTS.map(([y]) => `<td class="money">${fmtFull(row[`ie_total_${y}`] || 0)}</td>`).join('')}
+                  <td class="money">${fmtFull(row[`ie_total_${era}`] || 0)}</td>
                 </tr>` : ''}
                 <tr style="font-weight:600;border-top:2px solid var(--tn-border);">
                   <td>Total</td>
-                  ${window.TN_ERA_OPTS.map(([y]) => `<td class="money" style="${y === era ? 'color:var(--tn-accent);' : ''}">${fmtFull(row[`grand_total_${y}`] || 0)}</td>`).join('')}
+                  <td class="money" style="color:var(--tn-accent);">${fmtFull(row[`grand_total_${era}`] || 0)}</td>
                 </tr>
               </tbody>
             </table>

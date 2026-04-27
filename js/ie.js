@@ -147,7 +147,7 @@ window.TNIE = (function () {
     let timer;
     container.querySelector('#ie-spender-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'ie-spender' }));
@@ -266,28 +266,34 @@ window.TNIE = (function () {
                 Donors pulled from Tennessee Registry of Election Finance contribution records.
                 Some groups may have additional funding sources not captured in state filings.
               </div>
-              <div class="tn-table-wrap" style="overflow-x:auto;">
+              <div class="tn-table-wrap">
                 <table class="tn-table">
                   <thead><tr>
                     <th style="width:40px;">#</th>
                     <th>Donor</th>
                     <th class="num">Total</th>
                     <th class="num"># Donations</th>
-                    ${yearCols.map(y => `<th class="num">${y}</th>`).join('')}
                   </tr></thead>
                   <tbody>
-                    ${donors.map((d, i) => `
-                      <tr>
-                        <td class="rank">${i + 1}</td>
-                        <td>${d.donor_name}</td>
-                        <td class="money" style="font-weight:600;">${fmtFull(d.total_since_2012 || d.total_15yr || 0)}</td>
-                        <td class="money">${parseInt(d.num_donations || 0).toLocaleString()}</td>
-                        ${yearCols.map(y => {
-                          const amt = parseFloat(d[y]) || 0;
-                          return `<td class="money" style="${amt > 0 ? '' : 'color:var(--tn-text-light);'}">${amt > 0 ? fmtFull(amt) : '—'}</td>`;
-                        }).join('')}
-                      </tr>
-                    `).join('')}
+                    ${donors.map((d, i) => {
+                      const activeYears = yearCols.filter(y => parseFloat(d[y]) > 0);
+                      return `
+                        <tr style="border-bottom:${activeYears.length ? 'none' : ''};">
+                          <td class="rank" style="vertical-align:top;padding-top:12px;">${i + 1}</td>
+                          <td style="vertical-align:top;padding-top:12px;font-weight:500;">${d.donor_name}</td>
+                          <td class="money" style="font-weight:600;vertical-align:top;padding-top:12px;">${fmtFull(d.total_since_2012 || d.total_15yr || 0)}</td>
+                          <td class="money" style="vertical-align:top;padding-top:12px;">${parseInt(d.num_donations || 0).toLocaleString()}</td>
+                        </tr>
+                        ${activeYears.map((y, yi) => `
+                          <tr style="background:#f7f7f5;${yi === activeYears.length - 1 ? 'border-bottom:2px solid var(--tn-border);' : 'border-bottom:none;'}">
+                            <td></td>
+                            <td style="font-size:12px;color:var(--tn-text-muted);padding-top:4px;padding-bottom:4px;padding-left:28px;">${y}</td>
+                            <td class="money" style="font-size:12px;color:var(--tn-text-muted);padding-top:4px;padding-bottom:4px;">${fmtFull(parseFloat(d[y]))}</td>
+                            <td></td>
+                          </tr>
+                        `).join('')}
+                      `;
+                    }).join('')}
                   </tbody>
                 </table>
               </div>
@@ -422,7 +428,7 @@ window.TNIE = (function () {
     let timer;
     container.querySelector('#ie-pol-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'ie-politician' }));

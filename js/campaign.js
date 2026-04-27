@@ -148,7 +148,7 @@ window.TNCampaign = (function () {
     let timer;
     container.querySelector('#cf-pol-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'politician' }));
@@ -172,6 +172,7 @@ window.TNCampaign = (function () {
 
     const key  = state.entity;
     const era  = getEra(state);
+    const eraLabel = window.TN_ERA_OPTS.find(([y]) => y === era)?.[1] || era;
     const meta = pols.find(r => r.politician_key === key);
     const tot  = totals.find(r => r.politician_key === key);
 
@@ -241,25 +242,25 @@ window.TNCampaign = (function () {
             </div>
           ` : ''}
 
-          <h3 class="tn-section-heading">Fundraising by Era</h3>
+          <h3 class="tn-section-heading">Fundraising Breakdown — ${eraLabel}</h3>
           <div class="tn-table-wrap" style="margin-bottom:20px;">
             <table class="tn-table">
               <thead><tr>
                 <th>Account</th>
-                ${window.TN_ERA_OPTS.map(([y, l]) => `<th class="num">${l}</th>`).join('')}
+                <th class="num">${eraLabel}</th>
               </tr></thead>
               <tbody>
                 <tr>
                   <td>Campaign Account</td>
-                  ${window.TN_ERA_OPTS.map(([y]) => `<td class="money">${fmtFull(tot ? tot[`campaign_total_${y}`] : 0)}</td>`).join('')}
+                  <td class="money">${fmtFull(tot ? tot[`campaign_total_${era}`] : 0)}</td>
                 </tr>
                 <tr>
                   <td>PAC</td>
-                  ${window.TN_ERA_OPTS.map(([y]) => `<td class="money">${fmtFull(tot ? tot[`pac_total_${y}`] : 0)}</td>`).join('')}
+                  <td class="money">${fmtFull(tot ? tot[`pac_total_${era}`] : 0)}</td>
                 </tr>
                 <tr style="font-weight:600;border-top:2px solid var(--tn-border);">
                   <td>Total</td>
-                  ${window.TN_ERA_OPTS.map(([y]) => `<td class="money" style="${y === era ? 'color:var(--tn-accent);' : ''}">${fmtFull(tot ? tot[`total_total_${y}`] : 0)}</td>`).join('')}
+                  <td class="money" style="color:var(--tn-accent);">${fmtFull(tot ? tot[`total_total_${era}`] : 0)}</td>
                 </tr>
               </tbody>
             </table>
@@ -405,7 +406,7 @@ window.TNCampaign = (function () {
     let timer;
     container.querySelector('#cf-donor-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'donors' }));
