@@ -14,7 +14,7 @@ window.TNLobbying = (function () {
   }
 
   async function render(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty, normalizeName } = helpers;
 
     if (state.entity) {
       await renderProfile(container, state, helpers);
@@ -93,7 +93,7 @@ window.TNLobbying = (function () {
             ${visible.map((r, i) => `
               <tr>
                 <td class="rank">${i + 1}</td>
-                <td class="name-link" data-key="${encodeURIComponent(r.company_name)}">${r.company_name}</td>
+                <td class="name-link" data-key="${encodeURIComponent(r.company_name)}">${normalizeName(r.company_name)}</td>
                 ${window.TN_ERA_OPTS.map(([y]) => `<td class="money">${fmt(r[`total_${y}`] || 0)}</td>`).join('')}
               </tr>
             `).join('')}
@@ -139,10 +139,18 @@ window.TNLobbying = (function () {
         toggleArrow.textContent  = isOpen ? '▶' : '▼';
       });
     }
+
+    // ── Restore search focus after re-render ──────────────────────────────────
+    const searchInput = container.querySelector('#lobbying-search');
+    if (searchInput && state.query) {
+      searchInput.focus();
+      const len = searchInput.value.length;
+      searchInput.setSelectionRange(len, len);
+    }
   }
 
   async function renderProfile(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -174,7 +182,7 @@ window.TNLobbying = (function () {
 
       <div class="tn-profile">
         <div class="tn-profile-header">
-          <div class="tn-profile-name">${company}</div>
+          <div class="tn-profile-name">${normalizeName(company)}</div>
           ${row.link ? `<div class="tn-profile-meta"><a href="${row.link}" target="_blank" style="color:rgba(255,255,255,0.8);font-size:13px;">${row.link}</a></div>` : ''}
         </div>
         <div class="tn-profile-body">

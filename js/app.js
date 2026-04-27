@@ -135,6 +135,23 @@
     render();
   }
 
+// ── Display name normalization ────────────────────────────────────────────────
+const NAME_OVERRIDES = {
+  "at&t":          "AT&T",
+  "hca healthcare": "HCA Healthcare",
+  "tennesseecan":   "TennesseeCan",
+};
+
+function normalizeName(name) {
+  if (!name) return name;
+
+  // Check exact overrides first (case-insensitive)
+  const lower = name.toLowerCase();
+  if (NAME_OVERRIDES[lower]) return NAME_OVERRIDES[lower];
+
+  // Fix 'S → 's (possessives like Tennessee'S → Tennessee's)
+  return name.replace(/'S\b/g, "'s");
+}
   // ── Main render ──────────────────────────────────────────────────────────────
   async function render() {
     const app = document.getElementById('tn-spending-app');
@@ -156,19 +173,19 @@
         break;
       case 'top-spenders':
         await loadModule('top_spenders');
-        if (window.TNTopSpenders) window.TNTopSpenders.render(content, state, { loadData, fmt, fmtFull, eraCol, partyBadge, navigate, renderLoading, renderEmpty });
+        if (window.TNTopSpenders) window.TNTopSpenders.render(content, state, { loadData, fmt, fmtFull, eraCol, partyBadge, navigate, renderLoading, renderEmpty, normalizeName  });
         break;
       case 'lobbying':
         await loadModule('lobbying');
-        if (window.TNLobbying) window.TNLobbying.render(content, state, { loadData, fmt, fmtFull, eraCol, partyBadge, navigate, renderLoading, renderEmpty });
+        if (window.TNLobbying) window.TNLobbying.render(content, state, { loadData, fmt, fmtFull, eraCol, partyBadge, navigate, renderLoading, renderEmpty, normalizeName });
         break;
       case 'campaign':
         await loadModule('campaign');
-        if (window.TNCampaign) window.TNCampaign.render(content, state, { loadData, fmt, fmtFull, eraCol, partyBadge, navigate, renderLoading, renderEmpty });
+        if (window.TNCampaign) window.TNCampaign.render(content, state, { loadData, fmt, fmtFull, eraCol, partyBadge, navigate, renderLoading, renderEmpty, normalizeName  });
         break;
       case 'ie':
         await loadModule('ie');
-        if (window.TNIE) window.TNIE.render(content, state, { loadData, fmt, fmtFull, eraCol, partyBadge, navigate, renderLoading, renderEmpty });
+        if (window.TNIE) window.TNIE.render(content, state, { loadData, fmt, fmtFull, eraCol, partyBadge, navigate, renderLoading, renderEmpty, normalizeName  });
         break;
     }
   }

@@ -46,7 +46,7 @@ window.TNCampaign = (function () {
 
   // ── Politicians tab ──────────────────────────────────────────────────────────
   async function renderPoliticians(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty, partyBadge } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty, partyBadge, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -123,7 +123,7 @@ window.TNCampaign = (function () {
               <tr>
                 <td class="rank">${i + 1}</td>
                 <td class="name-link" data-key="${encodeURIComponent(r.politician_key)}">
-                  ${r.display_name || r.politician_key}
+                  ${normalizeName(r.display_name || r.politician_key)}
                 </td>
                 <td>${partyBadge(r.party)}</td>
                 <td style="font-size:12px;color:var(--tn-text-muted);">${r.current_seat || ''}</td>
@@ -148,18 +148,26 @@ window.TNCampaign = (function () {
     let timer;
     container.querySelector('#cf-pol-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'politician' }));
     });
     const moreBtn = container.querySelector('#cf-pol-more');
     if (moreBtn) moreBtn.addEventListener('click', () => navigate({ page: (state.page || 0) + 1 }));
+
+    // ── Restore search focus after re-render ────────────────────────────────
+    const searchInput = container.querySelector('#cf-pol-search');
+    if (searchInput && state.query) {
+      searchInput.focus();
+      const len = searchInput.value.length;
+      searchInput.setSelectionRange(len, len);
+    }
   }
 
   // ── Politician profile ───────────────────────────────────────────────────────
   async function renderPoliticianProfile(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading, partyBadge } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, partyBadge, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -197,12 +205,12 @@ window.TNCampaign = (function () {
 
       <div class="tn-profile">
         <div class="tn-profile-header">
-          <div class="tn-profile-name">${meta.display_name || key}</div>
+          <div class="tn-profile-name">${normalizeName(meta.display_name || key)}</div>
           <div class="tn-profile-meta">
             <span>${meta.party || ''}</span>
             ${meta.current_seat ? `<span>${meta.current_seat}</span>` : ''}
             ${meta.current_elected === 'Yes' ? '<span>✓ Currently Elected</span>' : ''}
-            ${meta.pac_name ? `<span>PAC: ${meta.pac_name}</span>` : ''}
+            ${meta.pac_name ? `<span>PAC: ${normalizeName(meta.pac_name)}</span>` : ''}
           </div>
         </div>
         <div class="tn-profile-body">
@@ -290,7 +298,7 @@ window.TNCampaign = (function () {
                   ${donorVisible.map((d, i) => `
                     <tr>
                       <td class="rank">${i + 1}</td>
-                      <td class="name-link" data-donor="${encodeURIComponent(d.donor_name)}">${d.donor_name}</td>
+                      <td class="name-link" data-donor="${encodeURIComponent(d.donor_name)}">${normalizeName(d.donor_name)}</td>
                       <td class="money" style="font-weight:600;">${fmtFull(d[`total_${era}`] || 0)}</td>
                       <td class="money">${parseFloat(d[`pac_${era}`]) > 0 ? fmtFull(d[`pac_${era}`]) : '<span style="color:var(--tn-text-light);">—</span>'}</td>
                       <td class="money">${parseFloat(d[`campaign_${era}`]) > 0 ? fmtFull(d[`campaign_${era}`]) : '<span style="color:var(--tn-text-light);">—</span>'}</td>
@@ -336,7 +344,7 @@ window.TNCampaign = (function () {
 
   // ── Donors tab ───────────────────────────────────────────────────────────────
   async function renderDonors(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -390,7 +398,7 @@ window.TNCampaign = (function () {
             ${visible.map((r, i) => `
               <tr>
                 <td class="rank">${i + 1}</td>
-                <td class="name-link" data-key="${encodeURIComponent(r.donor_name)}">${r.donor_name}</td>
+                <td class="name-link" data-key="${encodeURIComponent(r.donor_name)}">${normalizeName(r.donor_name)}</td>
                 ${window.TN_ERA_OPTS.map(([y]) => `<td class="money">${fmt(r[`total_${y}`] || 0)}</td>`).join('')}
               </tr>
             `).join('')}
@@ -407,18 +415,26 @@ window.TNCampaign = (function () {
     let timer;
     container.querySelector('#cf-donor-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'donors' }));
     });
     const moreBtn = container.querySelector('#cf-donor-more');
     if (moreBtn) moreBtn.addEventListener('click', () => navigate({ page: (state.page || 0) + 1 }));
+
+    // ── Restore search focus after re-render ────────────────────────────────
+    const searchInput = container.querySelector('#cf-donor-search');
+    if (searchInput && state.query) {
+      searchInput.focus();
+      const len = searchInput.value.length;
+      searchInput.setSelectionRange(len, len);
+    }
   }
 
   // ── Donor profile ────────────────────────────────────────────────────────────
   async function renderDonorProfile(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -440,9 +456,9 @@ window.TNCampaign = (function () {
 
       <div class="tn-profile">
         <div class="tn-profile-header">
-          <div class="tn-profile-name">${key}</div>
+          <div class="tn-profile-name">${normalizeName(key)}</div>
           ${donor && donor.politician_reference ? `
-            <div class="tn-profile-meta"><span>PAC linked to: ${donor.politician_reference}</span></div>
+            <div class="tn-profile-meta"><span>PAC linked to: ${normalizeName(donor.politician_reference)}</span></div>
           ` : ''}
         </div>
         <div class="tn-profile-body">
@@ -478,7 +494,7 @@ window.TNCampaign = (function () {
                   ${recipients.map((r, i) => `
                     <tr>
                       <td class="rank">${i + 1}</td>
-                      <td class="name-link" data-pol="${encodeURIComponent(r.politician_key)}">${r.politician_key}</td>
+                      <td class="name-link" data-pol="${encodeURIComponent(r.politician_key)}">${normalizeName(r.politician_key)}</td>
                       <td class="money">${fmtFull(r[`total_${era}`] || 0)}</td>
                     </tr>
                   `).join('')}

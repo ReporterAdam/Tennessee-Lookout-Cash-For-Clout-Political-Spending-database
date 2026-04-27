@@ -69,7 +69,7 @@ window.TNIE = (function () {
 
   // ── Spenders tab ─────────────────────────────────────────────────────────────
   async function renderSpenders(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -128,7 +128,7 @@ window.TNIE = (function () {
             ${visible.map((r, i) => `
               <tr>
                 <td class="rank">${i + 1}</td>
-                <td class="name-link" data-key="${encodeURIComponent(r.spender_name)}">${r.spender_name}</td>
+                <td class="name-link" data-key="${encodeURIComponent(r.spender_name)}">${normalizeName(r.spender_name)}</td>
                 <td class="money" style="font-weight:600;">${fmt(r[col] || 0)}</td>
                 <td class="money" style="color:var(--tn-green);">${fmt(r[supportCol] || 0)}</td>
                 <td class="money" style="color:var(--tn-accent);">${fmt(r[opposeCol] || 0)}</td>
@@ -147,18 +147,26 @@ window.TNIE = (function () {
     let timer;
     container.querySelector('#ie-spender-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'ie-spender' }));
     });
     const moreBtn = container.querySelector('#ie-spender-more');
     if (moreBtn) moreBtn.addEventListener('click', () => navigate({ page: (state.page || 0) + 1 }));
+
+    // ── Restore search focus after re-render ────────────────────────────────
+    const searchInput = container.querySelector('#ie-spender-search');
+    if (searchInput && state.query) {
+      searchInput.focus();
+      const len = searchInput.value.length;
+      searchInput.setSelectionRange(len, len);
+    }
   }
 
   // ── Spender profile ──────────────────────────────────────────────────────────
   async function renderSpenderProfile(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -178,8 +186,9 @@ window.TNIE = (function () {
     const supportCol = ieCol(era, 'support');
     const opposeCol  = ieCol(era, 'oppose');
 
+    // Filter recipients by era — don't show names with zero spending in this period
     const recipients = pairs
-      .filter(r => r.spender_name === key)
+      .filter(r => r.spender_name === key && parseFloat(r[col]) > 0)
       .sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
     const donors = spenderDonors
@@ -199,7 +208,7 @@ window.TNIE = (function () {
 
       <div class="tn-profile">
         <div class="tn-profile-header">
-          <div class="tn-profile-name">${key}</div>
+          <div class="tn-profile-name">${normalizeName(key)}</div>
           ${spender && spender.original_name && spender.original_name !== key ? `
             <div class="tn-profile-meta"><span>Filed as: ${spender.original_name}</span></div>
           ` : ''}
@@ -247,7 +256,7 @@ window.TNIE = (function () {
                     ${recipients.map((r, i) => `
                       <tr>
                         <td class="rank">${i + 1}</td>
-                        <td>${r.politician_display || r.politician_key}</td>
+                        <td>${normalizeName(r.politician_display || r.politician_key)}</td>
                         <td class="money" style="font-weight:600;">${fmtFull(r[col] || 0)}</td>
                         <td class="money" style="color:var(--tn-green);">${fmtFull(r[supportCol] || 0)}</td>
                         <td class="money" style="color:var(--tn-accent);">${fmtFull(r[opposeCol] || 0)}</td>
@@ -257,7 +266,7 @@ window.TNIE = (function () {
                   </tbody>
                 </table>
               </div>
-            ` : '<p style="color:var(--tn-text-muted);font-size:14px;">No recipient data found.</p>'}
+            ` : '<p style="color:var(--tn-text-muted);font-size:14px;">No spending recorded for this time period.</p>'}
           ` : ''}
 
           ${tab === 'donors' ? `
@@ -280,7 +289,7 @@ window.TNIE = (function () {
                       return `
                         <tr style="border-bottom:${activeYears.length ? 'none' : ''};">
                           <td class="rank" style="vertical-align:top;padding-top:12px;">${i + 1}</td>
-                          <td style="vertical-align:top;padding-top:12px;font-weight:500;">${d.donor_name}</td>
+                          <td style="vertical-align:top;padding-top:12px;font-weight:500;">${normalizeName(d.donor_name)}</td>
                           <td class="money" style="font-weight:600;vertical-align:top;padding-top:12px;">${fmtFull(d.total_since_2012 || d.total_15yr || 0)}</td>
                           <td class="money" style="vertical-align:top;padding-top:12px;">${parseInt(d.num_donations || 0).toLocaleString()}</td>
                         </tr>
@@ -315,7 +324,7 @@ window.TNIE = (function () {
                     ${raw.map(r => `
                       <tr>
                         <td style="font-family:var(--tn-font-mono);font-size:12px;">${r.year || ''}</td>
-                        <td>${r.politician_display || r.politician_key || ''}</td>
+                        <td>${normalizeName(r.politician_display || r.politician_key || '')}</td>
                         <td class="money">${fmtFull(r.amount)}</td>
                         <td><span class="tn-badge ${r.support_or_oppose === 'Support' ? 'tn-badge-dem' : 'tn-badge-rep'}">${r.support_or_oppose || ''}</span></td>
                         <td style="font-size:12px;color:var(--tn-text-muted);">${r.spending_type || ''}</td>
@@ -341,7 +350,7 @@ window.TNIE = (function () {
 
   // ── Politicians tab ──────────────────────────────────────────────────────────
   async function renderPoliticians(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty, partyBadge } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty, partyBadge, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -404,7 +413,7 @@ window.TNIE = (function () {
               <tr>
                 <td class="rank">${i + 1}</td>
                 <td class="name-link" data-key="${encodeURIComponent(r.politician_display || r.politician_key)}">
-                  ${r.politician_display || r.politician_key}
+                  ${normalizeName(r.politician_display || r.politician_key)}
                 </td>
                 <td>${partyBadge(r.party)}</td>
                 <td class="money" style="font-weight:600;">${fmt(r[col] || 0)}</td>
@@ -428,18 +437,26 @@ window.TNIE = (function () {
     let timer;
     container.querySelector('#ie-pol-search').addEventListener('input', e => {
       clearTimeout(timer);
-      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      timer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
     container.querySelectorAll('.name-link[data-key]').forEach(cell => {
       cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), subview: 'ie-politician' }));
     });
     const moreBtn = container.querySelector('#ie-pol-more');
     if (moreBtn) moreBtn.addEventListener('click', () => navigate({ page: (state.page || 0) + 1 }));
+
+    // ── Restore search focus after re-render ────────────────────────────────
+    const searchInput = container.querySelector('#ie-pol-search');
+    if (searchInput && state.query) {
+      searchInput.focus();
+      const len = searchInput.value.length;
+      searchInput.setSelectionRange(len, len);
+    }
   }
 
   // ── IE Politician profile ────────────────────────────────────────────────────
   async function renderPoliticianProfile(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading, partyBadge } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, partyBadge, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -456,8 +473,9 @@ window.TNIE = (function () {
     const supportCol = ieCol(era, 'support');
     const opposeCol  = ieCol(era, 'oppose');
 
+    // Only show spenders with actual spending in this era
     const spenders = pairs
-      .filter(r => (r.politician_display || r.politician_key) === key)
+      .filter(r => (r.politician_display || r.politician_key) === key && parseFloat(r[col]) > 0)
       .sort((a, b) => (parseFloat(b[col]) || 0) - (parseFloat(a[col]) || 0));
 
     container.innerHTML = `
@@ -465,7 +483,7 @@ window.TNIE = (function () {
 
       <div class="tn-profile">
         <div class="tn-profile-header">
-          <div class="tn-profile-name">${key}</div>
+          <div class="tn-profile-name">${normalizeName(key)}</div>
           ${pol ? `<div class="tn-profile-meta">
             <span>${pol.party || ''}</span>
             ${pol.current_seat ? `<span>${pol.current_seat}</span>` : ''}
@@ -508,7 +526,7 @@ window.TNIE = (function () {
                   ${spenders.map((r, i) => `
                     <tr>
                       <td class="rank">${i + 1}</td>
-                      <td class="name-link" data-spender="${encodeURIComponent(r.spender_name)}">${r.spender_name}</td>
+                      <td class="name-link" data-spender="${encodeURIComponent(r.spender_name)}">${normalizeName(r.spender_name)}</td>
                       <td class="money" style="font-weight:600;">${fmtFull(r[col] || 0)}</td>
                       <td class="money" style="color:var(--tn-green);">${fmtFull(r[supportCol] || 0)}</td>
                       <td class="money" style="color:var(--tn-accent);">${fmtFull(r[opposeCol] || 0)}</td>
@@ -518,7 +536,7 @@ window.TNIE = (function () {
                 </tbody>
               </table>
             </div>
-          ` : '<p style="color:var(--tn-text-muted);font-size:14px;">No spender data found.</p>'}
+          ` : '<p style="color:var(--tn-text-muted);font-size:14px;">No spending recorded for this time period.</p>'}
         </div>
       </div>
     `;

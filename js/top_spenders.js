@@ -28,7 +28,7 @@ window.TNTopSpenders = (function () {
   }
 
   async function render(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, renderEmpty, normalizeName } = helpers;
 
     if (state.entity) {
       await renderProfile(container, state, helpers);
@@ -42,28 +42,38 @@ window.TNTopSpenders = (function () {
 
     const era       = getEra(state);
     const threshold = THRESHOLDS[era] || 100_000;
-    const qualKey   = `qualifies_${era}`;
     const grandCol  = eraCol(era);
     const lobCol    = eraCol(era, 'lob');
     const cfCol     = eraCol(era, 'cf');
     const ieCol     = eraCol(era, 'ie');
 
     const query = (state.query || '').toLowerCase();
-    let rows = data.filter(r => {
-      const meetsThreshold = (parseFloat(r[grandCol]) || 0) >= threshold;
-      const matchesSearch  = !query ||
-        (r.entity_name || '').toLowerCase().includes(query) ||
-        (r.aliases || []).some(a => a.toLowerCase().includes(query));
-      return meetsThreshold && matchesSearch;
-    });
 
+    // Build the full ranked list first (threshold only, no search filter)
+    // so ranks reflect true overall position even when searching
     const sortCol = state.sortCol || grandCol;
     const sortDir = state.sortDir || 'desc';
-    rows = rows.slice().sort((a, b) => {
-      const av = parseFloat(a[sortCol]) || 0;
-      const bv = parseFloat(b[sortCol]) || 0;
-      return sortDir === 'desc' ? bv - av : av - bv;
-    });
+
+    let allRows = data
+      .filter(r => (parseFloat(r[grandCol]) || 0) >= threshold)
+      .slice()
+      .sort((a, b) => {
+        const av = parseFloat(a[sortCol]) || 0;
+        const bv = parseFloat(b[sortCol]) || 0;
+        return sortDir === 'desc' ? bv - av : av - bv;
+      });
+
+    // Assign true ranks before filtering by search
+    const rankMap = {};
+    allRows.forEach((r, i) => { rankMap[r.entity_name] = i + 1; });
+
+    // Now filter by search for display
+    let rows = query
+      ? allRows.filter(r =>
+          (r.entity_name || '').toLowerCase().includes(query) ||
+          (r.aliases || []).some(a => a.toLowerCase().includes(query))
+        )
+      : allRows;
 
     const page    = state.page || 0;
     const visible = rows.slice(0, (page + 1) * PAGE_SIZE);
@@ -125,10 +135,10 @@ window.TNTopSpenders = (function () {
             </tr>
           </thead>
           <tbody>
-            ${visible.map((r, i) => {
-              const lobAmt   = parseFloat(r[lobCol])  || 0;
-              const cfAmt    = parseFloat(r[cfCol])   || 0;
-              const ieAmt    = parseFloat(r[ieCol])   || 0;
+            ${visible.map(r => {
+              const lobAmt   = parseFloat(r[lobCol])   || 0;
+              const cfAmt    = parseFloat(r[cfCol])    || 0;
+              const ieAmt    = parseFloat(r[ieCol])    || 0;
               const grandAmt = parseFloat(r[grandCol]) || 0;
 
               const lobCell = lobAmt > 0
@@ -145,9 +155,9 @@ window.TNTopSpenders = (function () {
 
               return `
                 <tr>
-                  <td class="rank">${i + 1}</td>
+                  <td class="rank">${rankMap[r.entity_name]}</td>
                   <td class="name-link" data-key="${encodeURIComponent(r.entity_name)}">
-                    ${r.entity_name}
+                    ${normalizeName(r.entity_name)}
                     ${r.website ? `<a href="${r.website}" target="_blank" style="color:var(--tn-text-light);font-size:11px;margin-left:4px;" onclick="event.stopPropagation()">↗</a>` : ''}
                   </td>
                   <td class="money" style="font-weight:700;">${fmt(grandAmt)}</td>
@@ -169,7 +179,7 @@ window.TNTopSpenders = (function () {
     let searchTimer;
     container.querySelector('#ts-search').addEventListener('input', e => {
       clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 600);
+      searchTimer = setTimeout(() => navigate({ query: e.target.value, page: 0 }), 280);
     });
 
     container.querySelectorAll('.tn-table th[data-sort]').forEach(th => {
@@ -180,18 +190,18 @@ window.TNTopSpenders = (function () {
       });
     });
 
-   container.querySelectorAll('.name-link[data-key]').forEach(cell => {
-     cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), era: '2025' }));
-   });
-   container.querySelectorAll('.ts-lob-link').forEach(cell => {
-     cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'lobbying', entity: decodeURIComponent(cell.dataset.entity), subview: null, era: '2025' }); });
-   });
-   container.querySelectorAll('.ts-cf-link').forEach(cell => {
-     cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'campaign', entity: decodeURIComponent(cell.dataset.entity), subview: 'donors', era: '2025' }); });
-   });
-   container.querySelectorAll('.ts-ie-link').forEach(cell => {
-     cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'ie', entity: decodeURIComponent(cell.dataset.entity), subview: 'ie-spenders', era: '2025' }); });
-   });
+    container.querySelectorAll('.name-link[data-key]').forEach(cell => {
+      cell.addEventListener('click', () => navigate({ entity: decodeURIComponent(cell.dataset.key), era: '2025' }));
+    });
+    container.querySelectorAll('.ts-lob-link').forEach(cell => {
+      cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'lobbying', entity: decodeURIComponent(cell.dataset.entity), subview: null, era: '2025' }); });
+    });
+    container.querySelectorAll('.ts-cf-link').forEach(cell => {
+      cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'campaign', entity: decodeURIComponent(cell.dataset.entity), subview: 'donors', era: '2025' }); });
+    });
+    container.querySelectorAll('.ts-ie-link').forEach(cell => {
+      cell.addEventListener('click', e => { e.stopPropagation(); navigate({ view: 'ie', entity: decodeURIComponent(cell.dataset.entity), subview: 'ie-spenders', era: '2025' }); });
+    });
 
     const toggleBtn   = container.querySelector('#ts-methodology-toggle');
     const toggleBody  = container.querySelector('#ts-methodology-body');
@@ -206,10 +216,18 @@ window.TNTopSpenders = (function () {
 
     const moreBtn = container.querySelector('#ts-more');
     if (moreBtn) moreBtn.addEventListener('click', () => navigate({ page: (state.page || 0) + 1 }));
+
+    // ── Restore search focus after re-render ────────────────────────────────
+    const searchInput = container.querySelector('#ts-search');
+    if (searchInput && state.query) {
+      searchInput.focus();
+      const len = searchInput.value.length;
+      searchInput.setSelectionRange(len, len);
+    }
   }
 
   async function renderProfile(container, state, helpers) {
-    const { loadData, fmt, fmtFull, navigate, renderLoading } = helpers;
+    const { loadData, fmt, fmtFull, navigate, renderLoading, normalizeName } = helpers;
 
     renderLoading(container);
 
@@ -225,7 +243,7 @@ window.TNTopSpenders = (function () {
 
       <div class="tn-profile">
         <div class="tn-profile-header">
-          <div class="tn-profile-name">${row.entity_name}</div>
+          <div class="tn-profile-name">${normalizeName(row.entity_name)}</div>
           <div class="tn-profile-meta">
             ${row.has_lobbying ? '<span>Lobbying</span>' : ''}
             ${row.has_cf       ? '<span>Campaign Contributions</span>' : ''}
