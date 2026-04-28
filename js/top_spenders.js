@@ -47,7 +47,6 @@ window.TNTopSpenders = (function () {
     const cfCol     = eraCol(era, 'cf');
     const ieCol     = eraCol(era, 'ie');
 
-<<<<<<< HEAD
     const query = (state.query || '').toLowerCase();
 
     // Build the full ranked list first (threshold only, no search filter)
@@ -75,28 +74,6 @@ window.TNTopSpenders = (function () {
           (r.aliases || []).some(a => a.toLowerCase().includes(query))
         )
       : allRows;
-=======
-    // AFTER
-   const query = (state.query || '').toLowerCase();
-   
-   // Pass 1: threshold filter + sort → assign true ranks
-   const sortCol = state.sortCol || grandCol;
-   const sortDir = state.sortDir || 'desc';
-   let ranked = data
-     .filter(r => (parseFloat(r[grandCol]) || 0) >= threshold)
-     .sort((a, b) => {
-       const av = parseFloat(a[sortCol]) || 0;
-       const bv = parseFloat(b[sortCol]) || 0;
-       return sortDir === 'desc' ? bv - av : av - bv;
-     })
-     .map((r, i) => ({ ...r, _rank: i + 1 }));
-   
-   // Pass 2: apply search filter, ranks stay attached
-   let rows = !query ? ranked : ranked.filter(r =>
-     (r.entity_name || '').toLowerCase().includes(query) ||
-     (r.aliases || []).some(a => a.toLowerCase().includes(query))
-   );
->>>>>>> be04827400c1bed50af95b1eea12fc82bc3c6c7c
 
     const page    = state.page || 0;
     const visible = rows.slice(0, (page + 1) * PAGE_SIZE);
@@ -178,11 +155,7 @@ window.TNTopSpenders = (function () {
 
               return `
                 <tr>
-<<<<<<< HEAD
                   <td class="rank">${rankMap[r.entity_name]}</td>
-=======
-                  <td class="rank">${r._rank}</td>
->>>>>>> be04827400c1bed50af95b1eea12fc82bc3c6c7c
                   <td class="name-link" data-key="${encodeURIComponent(r.entity_name)}">
                     ${normalizeName(r.entity_name)}
                     ${r.website ? `<a href="${r.website}" target="_blank" style="color:var(--tn-text-light);font-size:11px;margin-left:4px;" onclick="event.stopPropagation()">↗</a>` : ''}
